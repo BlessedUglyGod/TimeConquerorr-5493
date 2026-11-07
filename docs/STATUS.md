@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 21:25 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 21:45 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -27,7 +27,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
   - **Hub**: `HubService` is started by GameServer. It calls `HubBuilder`, which builds "Meridian Isle" from `HubConfig` at (0,0,400) at runtime only, and `HubBuilder` calls `HubDecor` for the decoration. The hub appears as `Workspace.Hub` during Play and is not saved in the place.
   - Multiplayer (design in PR #3, `docs/multiplayer/`): `PartyService`, `MatchLaunchService` and `MatchServerBridge`. Today it uses the local strategy; reserved servers in a separate Match place are ready but untested.
 - Client: `StarterPlayerScripts.TD` (`TDClient` controller, `Hud`, `Menus`, plus the new UI screens built on one shared design system).
-- `Workspace`: `TDMap` (Training Grounds, centre (0,0,0)), `AshVeilValley` (Story world 1, centre (600,0,0)) and `TwilightThreshold` (Story world 2, centre (1200,0,0), functional greybox).
+- `Workspace`: `TDMap` (Training Grounds, centre (0,0,0)), `AshVeilValley` (Story world 1, centre (600,0,0)) `TwilightThreshold` (world 2, centre (1200,0,0)), `SaltfangArchipelago` (world 3, centre (1800,0,0)) and `GatefallCity` (world 4, centre (2400,0,0)). Worlds 2–4 are functional greyboxes; worlds 3–4 data lives in `ReplicatedStorage.TD.WorldsExtra`.
 - Server-authoritative everywhere: clients send intent only, and every remote is validated and throttled.
 
 ## Live unit ids
@@ -42,6 +42,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 ## Done and verified in Studio (play mode via MCP)
 - **Core TD loop:** placement, combat, upgrades, sell, abilities, target modes, Auto Abilities and Auto Upgrade, win/loss, rewards. Statuses: Slow, Stun, Burn, ArmorBreak, Poison and Mark. Element chart, flying enemies, Chain and Pierce attacks.
 - **Infinite Mode:** endless scaling with a boss every 10 waves, rewards by wave reached and a personal best. Verified locally.
+- **Story worlds 3–4, Saltfang Archipelago and Gatefall City:** live as functional greyboxes. Their mechanics run server-side: ExplodeOnDeath, StealMoneyOnLeak, CannonBarrage, ShieldSelf, CleanseEvery, AshField, HealOnce and OpenGate. StealMoneyOnLeak takes money from each player's own match wallet and shows a Notify toast. Visuals are simple CombatFx bursts and rings for now. All 4 Story worlds can be picked in the Story lobby, each with 5 stages that unlock in order.
 - **Story world 2, Twilight Threshold:** live as a functional greybox. Its enemies, materials and the mechanics SwordWave, Reflect, Unbound (armor switch) and ShieldSelf run server-side; their visuals are simple CombatFx beams and rings for now.
 - **Story world 1, Ash Veil Valley:** map plus stages that unlock in order. Trying to start a locked stage is rejected, and the lobby marks locked stages in red.
 - **Hub "Meridian Isle":** Story portal queue for 1–6 players, return to hub, stations, and 3D NPCs Luma and Oro with dialogue.
@@ -59,7 +60,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **Mobile layout** on a real device, screenshots of the new UI and hub on PC, and the NPC model orientation.
 - Server checks for awakening questlines (`Progression.Awakenings`, Tokiya).
 - 3D models: the 10 second-batch units, the evolved units and most pack enemies still use primitive figures or the base model.
-- Story worlds 3–4 (data in `content/Worlds/`); world 2 needs decor and enemy models, map 2 Sunken Lantern Shrine, and a `Secret` rarity in `TD.Rarities`.
+- Story worlds 2–4 need decor and enemy models (they are greyboxes), map 2 Sunken Lantern Shrine, and a `Secret` rarity in `TD.Rarities`.
 - Mirroring the place source into this repo, which is waiting for an `.rbxlx` export from the owner.
 
 ## Open pull requests (repo)
@@ -143,13 +144,13 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 | UltraRare | profile id "UltraRare", `Progress[unitId].MasteryXp` | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
 
 ### Map rules for decoration passes
-These apply to `Workspace.TDMap` (centre (0,0,0)), `Workspace.AshVeilValley` (centre (600,0,0)) and `Workspace.TwilightThreshold` (centre (1200,0,0), `ModelStreamingMode` Persistent). Each map is a 200×200 square.
+These apply to `Workspace.TDMap` (centre (0,0,0)), `AshVeilValley` (600,0,0), `TwilightThreshold` (1200,0,0, `ModelStreamingMode` Persistent), `SaltfangArchipelago` (1800,0,0) and `GatefallCity` (2400,0,0). Each map is a 200×200 square.
 
 **Gameplay-critical: do not move, rename or resize these.**
 - **`Ground`** (Part, top at y = 0.5). Unit placement raycasts hit only this part, so the visible ground must match it.
 - **The enemy path is data**, for example `Config.Maps.TwilightThreshold.Waypoints` (module `TD.WorldTwilight`). `Path/Segment1..N` are only visual stripes. They can be restyled but must stay on the same line. Placement is blocked within about 7 studs of the path.
-- **`PlayerSpawn`**: players teleport here at match start. In Twilight it is at (1200, 0.7, 88).
-- **`SpawnGate`**, where enemies appear, and **`CoreBase`/`Core`**, the core. In Twilight they are at (1100, −70) and (1300, −20). Keep both in place.
+- **`PlayerSpawn`**: players teleport here at match start, at (centre.X, 0.7, 88) on the Story maps.
+- **`SpawnGate`** sits at the first waypoint, where enemies appear, and **`CoreBase`/`Core`** at the last. In Twilight they are at (1100, −70) and (1300, −20). Keep both in place.
 
 **Free to change**
 - The `Decor` folder (in Twilight, currently 4 boundary walls) can be replaced.
@@ -163,10 +164,26 @@ These apply to `Workspace.TDMap` (centre (0,0,0)), `Workspace.AshVeilValley` (ce
   - Elite: `ChainboundWarden`, `BladeWraithCaptain`.
   - Miniboss: `SeveredJudge`. Boss: `YomikageFerryman`.
 
+### Saltfang Archipelago and Gatefall City data for models
+Enemy models go in `ServerStorage.TDEnemyModels/<id>`, front facing −Z. Their look prompts are in `content/Worlds/SaltfangArchipelago.lua` and `content/Worlds/GatefallCity.lua`.
+
+**Saltfang Archipelago**
+- Regular: `DeckhandBrawler`, `PowderMonkey`, `GrappleRaider`, `GullSwarm` (Flying), `NavyRifleman`.
+- Elite: `NavyLieutenant`, `CannonCrab`.
+- Miniboss: `CommodoreVael`. Boss: `CaptainRedmaw`.
+
+**Gatefall City**
+- Regular: `GateGoblin`, `CaveSpider`, `ShadeHound`, `StoneGargoyle` (Flying), `RuneGolem`.
+- Elite: `OgreChieftain`, `MimicChest`.
+- Miniboss: `RedGateWarden`. Boss: `AshenSovereign`.
+
 ### Open tasks for Astra
 - [ ] **First:** a model for `Kaze` in `ReplicatedStorage.TD.UnitModels/Kaze` plus its inventory card. Follow the live contract above: one Model, front facing −Z, pivot at the centre, optional `Muzzle` at the bow. The card reads `Config.Units.Kaze` and `GetProfile().Progress.Kaze`.
 - [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Their look prompts are in `TD.ContentPack2` (and in `content/Units.lua` → `Look`).
 - [ ] Twilight Threshold: a decor pass on `Workspace.TwilightThreshold` (follow the map rules above) and models for its 8 enemies.
+- [ ] Saltfang Archipelago: a decor pass on `Workspace.SaltfangArchipelago` (tropical islands, docks, shipwrecks, navy fort) and models for its 9 enemies.
+- [ ] Gatefall City: a decor pass on `Workspace.GatefallCity` (night city, neon, Gate portals) and models for its 9 enemies.
+- [ ] Replace the placeholder CombatFx bursts and rings for world mechanics (SwordWave, Reflect, CannonBarrage, ExplodeOnDeath, AshField, OpenGate) with proper effects. This is visual only; keep the server calls as they are.
 - [ ] Models for the 16 evolved units (prompts: the `Look` fields in `content/Evolutions.lua`). Until a model exists, the base unit's model is used.
 
 ## Rules for any contributor
