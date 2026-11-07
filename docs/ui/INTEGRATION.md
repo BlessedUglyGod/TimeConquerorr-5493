@@ -73,3 +73,70 @@ and remove that mode's queue-pad entry from `HubConfig.Portals`. Register `HubCl
 - [ ] Enter a match: HubHud hidden, hub lighting removed, TDHud unchanged. Return: both back.
 - [ ] Decor: no blocked paths, nothing floating; label clutter from spawn gone.
 - [ ] Phone emulator 844×390: bottom dock with PLAY centred, Gate Board full screen.
+
+## Screens: Summon and Trait Reroll
+
+| Repo file | Create in Studio as |
+|---|---|
+| `src/ReplicatedStorage/TD/UI/UiParts.luau` | ModuleScript `ReplicatedStorage.TD.UI.UiParts` |
+| `src/StarterPlayerScripts/TD/Screens/SummonScreen.luau` | ModuleScript `StarterPlayer.StarterPlayerScripts.TD.Screens.SummonScreen` |
+| `src/StarterPlayerScripts/TD/Screens/TraitRerollScreen.luau` | ModuleScript `StarterPlayer.StarterPlayerScripts.TD.Screens.TraitRerollScreen` |
+
+The screens do not know the live remotes' exact shapes. Each one takes a small **backend adapter** (types at the top of each file) that the Studio thread writes once in TDClient against the real `Summon` / `GetProfile` remotes, `Banners`, `Rarities` and `Config.Units`. The sketch below shows the intent; rename fields to match the live modules.
+
+```lua
+local SummonScreen = require(script.Parent.Screens.SummonScreen)
+local TraitRerollScreen = require(script.Parent.Screens.TraitRerollScreen)
+
+local function unitView(uid, owned) -- owned = profile.Units[uid]
+	local def = Config.Units[owned.Id]
+	return { Uid = uid, UnitId = owned.Id, Name = def.Name, Rarity = def.Rarity, Level = owned.Level, Shiny = owned.Shiny }
+end
+
+SummonScreen.init({
+	getBanners = function()
+		local out = {}
+		for _, bn in Banners.active() do -- active by dates
+			table.insert(out, {
+				Id = bn.Id, Name = bn.Name, EndsAt = bn.EndsAt, Accent = Rarities.color(bn.FeaturedRarity),
+				Featured = (map bn.Featured to unit views), Rates = (map bn.Rates to { Rarity, Chance }),
+				PityMax = bn.Pity, PityLabel = "to a guaranteed " .. bn.PityRarity,
+				CostSingle = bn.Cost1, CostTen = bn.Cost10, TenNote = "Epic or better guaranteed",
+			})
+		end
+		return out
+	end,
+	getPity = function(id) return (cachedProfile.Pity or {})[id] or 0 end,
+	getBalance = function() return player:GetAttribute("Gems") or 0 end,
+	onBalanceChanged = function(cb) player:GetAttributeChangedSignal("Gems"):Connect(cb) end,
+	summon = function(bannerId, count)
+		local ok, res = pcall(Remotes.Summon.InvokeServer, Remotes.Summon, bannerId, count)
+		if not ok or type(res) ~= "table" or res.Error then return false, (type(res) == "table" and res.Error) or "Summon failed" end
+		cachedProfile = Remotes.GetProfile:InvokeServer() -- refresh pity / discovered
+		return true, (map res.Results to unit views with New = first time)
+	end,
+	getUnitModel = function(unitId) return ReplicatedStorage.TD.UnitModels:FindFirstChild(unitId) end,
+})
+
+TraitRerollScreen.init({
+	getUnits = function() (owned units as unit views + Trait = { Id, Name, Rarity, Effects = { "+35% damage", ... } }) end,
+	getOdds = function() return (server trait odds as { Rarity, Chance }) end,
+	getBalance = function() return player:GetAttribute("TraitShards") or 0 end,
+	costs = { Single = 1, Ten = 10, Lock = 10 }, -- Lock = nil if the server has no trait lock
+	tenRule = "Stops early on Legendary or better",
+	reroll = function(uid, count, lock) (invoke the trait reroll remote; return true, { Trait = ..., Rolls = n } or false, "reason") end,
+})
+
+HubClient.registerMenu("Summon", function() SummonScreen.open() end)
+HubHud.registerMenu("Summon", SummonScreen.open)
+HubClient.registerMenu("Traits", function() TraitRerollScreen.open() end) -- set TraitWell station Menu = "Traits"
+```
+
+If the live game has no trait reroll remote yet, it needs a server endpoint first (server-rolled, cost deducted server-side, validated unit ownership); the screen is ready for it.
+
+### Screen checklist
+
+- [ ] Summon: tabs switch banners; pity bar and costs match the profile; x1 and x10 play the reveal; Legendary+ shows the full-stage reveal; Skip and Done work; gems update.
+- [ ] Not enough gems: buttons dim and tapping says how many are missing.
+- [ ] Trait Reroll: unit strip filter cycles rarities; selecting a unit fills the left and current trait; reroll spins and lands on the server result; odds row flashes; lock toggles the cost.
+- [ ] Both at 844×390: readable, nothing off-screen.
