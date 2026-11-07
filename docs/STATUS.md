@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 21:55 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 22:10 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -189,18 +189,34 @@ Enemy models go in `ServerStorage.TDEnemyModels/<id>`, front facing −Z. Their 
   - It is registered under the `HubHud` dock ids `Quests` and `ShopGold` and the `HubClient` menus `Quests` and `ShopGold`.
   - The merchant NPC **Nim** has its station enabled; the dialogue option "Show me your wares" opens `ShopGold`.
 
+### Visual brief: recognisable archetypes (`content/Archetypes.lua`)
+Owner decision (2026-11-07): units should read at a glance as familiar anime **genre types**, such as the shadow ninja, the big-sword spirit warrior, the pirate captain or the S-rank hunter. **No unit may be a specific existing character.**
+
+Every one of the 42 units (6 original, 20 pack, 16 evolved) has an entry keyed by live id with four fields:
+- `Archetype`: the genre type the player should recognise.
+- `Look`: the model and portrait prompt.
+- `Own`: details that must appear, because they make the character ours.
+- `Avoid`: traits that must not appear.
+
+Rules:
+- Never combine two or more signature traits of one well-known character (hair + outfit + weapon + mark). One shared trope is fine; a full set is not.
+- No franchise symbols, crests, clan marks, exact weapon designs or catchphrases.
+- Names stay as they are in Config; they were chosen by meaning, not by sound.
+- `Look` in `content/Units.lua` and `content/Evolutions.lua` now matches this file.
+
 ### Open tasks for Astra
+- [ ] Every model, portrait and icon follows `content/Archetypes.lua` (Look + Own, never Avoid).
 - [ ] **First:** a model for `Kaze` in `ReplicatedStorage.TD.UnitModels/Kaze` plus its inventory card. Follow the live contract above: one Model, front facing −Z, pivot at the centre, optional `Muzzle` at the bow. The card reads `Config.Units.Kaze` and `GetProfile().Progress.Kaze`.
-- [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Their look prompts are in `TD.ContentPack2` (and in `content/Units.lua` → `Look`).
+- [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Use the `Look` prompts in `content/Archetypes.lua`; the ones in `TD.ContentPack2` are older.
 - [ ] Twilight Threshold: a decor pass on `Workspace.TwilightThreshold` (follow the map rules above) and models for its 8 enemies.
 - [ ] Saltfang Archipelago: a decor pass on `Workspace.SaltfangArchipelago` (tropical islands, docks, shipwrecks, navy fort) and models for its 9 enemies.
 - [ ] Gatefall City: a decor pass on `Workspace.GatefallCity` (night city, neon, Gate portals) and models for its 9 enemies.
 - [ ] Replace the placeholder CombatFx bursts and rings for world mechanics (SwordWave, Reflect, CannonBarrage, ExplodeOnDeath, AshField, OpenGate) with proper effects. This is visual only; keep the server calls as they are.
 - [ ] Purpose-built **Quest Board** and **Lantern Market** screens using the MetaService remotes above. Either keep calling the same remotes as `MetaScreens`, or replace that module and keep the registration ids `Quests` and `ShopGold`.
-- [ ] Models for the 16 evolved units (prompts: the `Look` fields in `content/Evolutions.lua`). Until a model exists, the base unit's model is used.
+- [ ] Models for the 16 evolved units (prompts: `content/Archetypes.lua`). Until a model exists, the base unit's model is used.
 
 ## Rules for any contributor
-- Original content only, inspired by genres but never copied.
+- Original content only, inspired by genres but never copied. Units are recognisable archetypes, never specific existing characters (`content/Archetypes.lua`).
 - Server-authoritative: never trust the client, and validate every remote.
 - Story Mode never mixes enemies across worlds (see `docs/STORY_WORLDS.md`).
 - Placement limits are per player. Ultra-rare units never need duplicates.

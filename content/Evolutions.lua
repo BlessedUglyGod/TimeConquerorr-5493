@@ -68,7 +68,7 @@ Evolutions.Units = {
 		Name = "Kaito Nightveil", Description = "Evolved Kaito. Crits also Mark the target (+15% damage taken).",
 		Color = Color3.fromRGB(25, 25, 35), Hair = Color3.fromRGB(120, 110, 160),
 		AddOnHit = { Mark = { 1.15, 3 } },
-		Look = "Kaito grown older: long midnight hooded coat with silver crow-feather trim, ash hair tied back, twin daggers now curved shadow blades leaving violet afterimages, crow mask hanging at the hip",
+		Look = "Kaito older: long midnight hooded coat with silver crow-feather trim, hair tied back, curved shadow blades leaving violet afterimages, crow mask at the hip",
 	},
 	KazeGalehawk = {
 		From = B.Kaze, Rarity = "Common", World = "AshVeilValley",
@@ -76,21 +76,21 @@ Evolutions.Units = {
 		Color = Color3.fromRGB(90, 140, 100), Hair = Color3.fromRGB(60, 60, 50),
 		Mul = { Range = 1.2 },
 		AddOnHit = { Slow = { 0.85, 1.5 } },
-		Look = "Kaze as a valley scout-ninja: hawk-feather cloak, longbow wrapped in red charm paper, ash-grey scarf, a hawk perched on the shoulder",
+		Look = "Kaze as a valley scout: hawk-feather cloak, longbow wrapped in red charm paper, ash-grey scarf, a hawk on the shoulder",
 	},
 	ToraStoneclaw = {
 		From = B.Tora, Rarity = "Common", World = "AshVeilValley",
 		Name = "Tora Stoneclaw", Description = "Evolved Tora. Heavier splash with a small stun chance.",
 		Color = Color3.fromRGB(150, 80, 40), Hair = Color3.fromRGB(30, 25, 20),
 		AddOnHit = { Stun = { 1, 0.5, Chance = 0.08 } },
-		Look = "Tora as a mountain-temple brawler: tiger-stripe gi, iron tiger-claw gauntlets, shaved sides and a short topknot, prayer beads",
+		Look = "Tora as a mountain-temple brawler: tiger-stripe gi, iron tiger-claw gauntlets, shaved sides with a short topknot, prayer beads",
 	},
 	HanaBriarshade = {
 		From = "Hana", Rarity = "Common", World = "AshVeilValley",
 		Name = "Hana Briarshade", Description = "Evolved Hana. Stronger poison darts from a blowpipe.",
 		Color = Color3.fromRGB(60, 110, 70), Hair = Color3.fromRGB(40, 90, 50),
 		AddOnHit = { Poison = { 10, 4 } }, -- merged: strongest of base and this wins per level
-		Look = "Hana as a forest kunoichi: dark green shinobi garb with leaf armour, a bamboo blowpipe with thorn darts, mossy hair in a single long braid, half mask of woven vines",
+		Look = "Hana as a forest kunoichi: dark green garb with leaf armour, bamboo blowpipe with thorn darts, single long braid, woven-vine mask",
 	},
 	------------------------------------------------ Twilight Threshold (spirit swordsmen)
 	YukiPalemoon = {
@@ -98,7 +98,7 @@ Evolutions.Units = {
 		Name = "Yuki Palemoon", Description = "Evolved Yuki. Spirit frost: stronger slow, more stuns.",
 		Color = Color3.fromRGB(200, 220, 245), Hair = Color3.fromRGB(240, 245, 255),
 		AddOnHit = { Slow = { 0.55, 2.5 } },
-		Look = "Yuki as a border spirit-guardian: white funeral-style kimono with pale blue moon crest, translucent ice katana with spirit flame, long silver hair, floating snow lanterns",
+		Look = "Yuki as a border guardian: white kimono with a pale blue moon crest, translucent ice katana with spirit flame, long silver hair, floating snow lanterns",
 	},
 	MomoSoulbell = {
 		From = "Momo", Rarity = "Common", World = "TwilightThreshold",
@@ -106,21 +106,21 @@ Evolutions.Units = {
 		Color = Color3.fromRGB(120, 170, 240), Hair = Color3.fromRGB(70, 50, 40),
 		Mul = { Damage = 1.6 },
 		AddOnHit = { Burn = { 20, 3 } },
-		Look = "Momo as a little shrine keeper of the dusk city: dark blue yukata with lantern pattern, pole lantern burning with pale blue spirit fire, a big bell on the ribbon",
+		Look = "Momo as a dusk-city shrine keeper: dark blue yukata with lantern pattern, pole lantern with pale blue spirit fire, big bell on the ribbon",
 	},
 	SerenInkveil = {
 		From = "Seren", Rarity = "Epic", World = "TwilightThreshold",
 		Name = "Seren Inkveil", Description = "Evolved Seren. Writes verdicts in spirit ink: stronger Mark.",
 		Color = Color3.fromRGB(20, 25, 60), Hair = Color3.fromRGB(15, 20, 50),
 		AddOnHit = { Mark = { 1.3, 5 } },
-		Look = "Seren as a spirit archivist: ink-black robe with glowing white calligraphy, floating ledger of names, brush-pen staff dripping blue ink, round glasses with a crack",
+		Look = "Seren as a spirit archivist: ink-black robe with glowing white calligraphy, floating ledger of names, brush-pen staff dripping blue ink, cracked round glasses",
 	},
 	RinTalismancer = {
 		From = "Rin", Rarity = "Common", World = "TwilightThreshold",
 		Name = "Rin Talismancer", Description = "Evolved Rin. Talisman kites still hunt flyers and now slow them.",
 		Color = Color3.fromRGB(245, 240, 225), Hair = Color3.fromRGB(250, 250, 250),
 		AddOnHit = { Slow = { 0.8, 1.5 } },
-		Look = "Rin as a spirit courier: white and red shrine outfit, a swarm of folded talisman-kites circling her, long red scarf, bell earring",
+		Look = "Rin as a spirit courier: white and red courier outfit (not a shrine-maiden cut), swarm of folded talisman-kites, long red scarf, bell earring",
 	},
 	------------------------------------------------ Saltfang Archipelago (pirates)
 	BaronGoldtide = {
@@ -128,14 +128,14 @@ Evolutions.Units = {
 		Name = "Baron Goldtide", Description = "Evolved Baron. Treasure-fleet owner: more income per wave.",
 		Color = Color3.fromRGB(30, 60, 110), Hair = Color3.fromRGB(230, 190, 60),
 		Mul = { Damage = 1.2, Income = 1.3 },
-		Look = "Baron as a merchant-admiral: navy and gold captain's coat, tricorn with a lion crest, golden mane, a treasure chest that floats beside him spilling coins",
+		Look = "Baron as a merchant-admiral: navy and gold captain's coat, tricorn with a lion crest, golden mane, a floating treasure chest spilling coins",
 	},
 	NamiStormsail = {
 		From = "Nami", Rarity = "Rare", World = "SaltfangArchipelago",
 		Name = "Nami Stormsail", Description = "Evolved Nami. Sea-wind arrows chain to more targets.",
 		Color = Color3.fromRGB(40, 120, 140), Hair = Color3.fromRGB(50, 170, 170),
 		AddChain = 1,
-		Look = "Nami as a ship's lookout archer: sailcloth coat, compass on the belt, bow carved from a ship's mast with rope string, teal hair blown by sea wind",
+		Look = "Nami as a ship's lookout: sailcloth coat, compass on the belt, bow carved from a ship's mast with rope string, teal hair blown by sea wind",
 	},
 	AkaneScarletCorsair = {
 		From = "Akane", Rarity = "Epic", World = "SaltfangArchipelago",
@@ -149,7 +149,7 @@ Evolutions.Units = {
 		Name = "Pip Cannonwright", Description = "Evolved Pip. Ship gunner: bigger shots, first hit still doubled.",
 		Color = Color3.fromRGB(150, 110, 60), Hair = Color3.fromRGB(190, 105, 50),
 		Mul = { Damage = 1.45, Cooldown = 1.0 },
-		Look = "Pip as a ship's gunner-mechanic: brass goggles, sailor vest with tool pockets, a hand cannon covered in copper coils, powder-burnt cheeks",
+		Look = "Pip as a ship's gunner-mechanic: brass goggles, sailor vest with tool pockets, hand cannon covered in copper coils, powder-burnt cheeks",
 	},
 	------------------------------------------------ Gatefall City (dungeon hunters)
 	RenGatebreaker = {
@@ -157,7 +157,7 @@ Evolutions.Units = {
 		Name = "Ren Gatebreaker", Description = "Evolved Ren. Lightning blade tuned for armoured Gate monsters.",
 		Color = Color3.fromRGB(30, 40, 70), Hair = Color3.fromRGB(240, 220, 90),
 		AddOnHit = { ArmorBreak = { 1.15, 3 } },
-		Look = "Ren as a ranked hunter: dark tactical jacket with a glowing hunter badge, lightning blade with a crystal core, hair crackling with sparks, fingerless gloves",
+		Look = "Ren as a ranked hunter: dark tactical jacket with a glowing rank badge, lightning blade with a crystal core, sparking hair, fingerless gloves",
 	},
 	MiraCinderqueen = {
 		From = B.Mira, Rarity = "Epic", World = "GatefallCity",
@@ -171,14 +171,14 @@ Evolutions.Units = {
 		Name = "Jin Runesmith", Description = "Evolved Jin. Rune hammer: stronger, longer Armor Break.",
 		Color = Color3.fromRGB(90, 70, 60), Hair = Color3.fromRGB(120, 75, 40),
 		AddOnHit = { ArmorBreak = { 1.4, 6 } },
-		Look = "Jin as a hunter guild smith: rune-etched apron and gauntlets, hammer with a glowing orange rune head, crystal goggles, ponytail with a metal clasp",
+		Look = "Jin as a guild smith: rune-etched apron and gauntlets, hammer with a glowing orange rune head, crystal goggles, metal ponytail clasp",
 	},
 	GusCrystalfist = {
 		From = "Gus", Rarity = "Common", World = "GatefallCity",
 		Name = "Gus Crystalfist", Description = "Evolved Gus. Crystal gauntlets: wider splash.",
 		Color = Color3.fromRGB(120, 90, 150), Hair = Color3.fromRGB(40, 35, 30),
 		Mul = { Splash = 1.25 },
-		Look = "Gus as a dungeon tank: purple crystal gauntlets grown from Gate shards, padded brown armour, scar on the nose, headband with a hunter rank tag",
+		Look = "Gus as a dungeon tank: purple crystal gauntlets grown from Gate shards, padded brown armour, scar across the nose, headband with a rank tag",
 	},
 }
 
