@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 20:40 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 20:50 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -64,6 +64,51 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **#3:** mode lobbies and reserved match servers, design and drop-in code (`claude/project-thread-q9x3v4`).
 - **#4:** Meridian UI design system, hub HUD and hub environment pass (`claude/project-thread-obtjna`).
 - These PRs are not merged into `main`; their code is integrated into the place by the Studio session. Read their branches for the drop-in sources.
+
+## Coordination with Astra (Codex, visuals)
+
+### Zones
+| Area | Owner |
+|---|---|
+| Game logic and data: waves, combat, abilities, match economy, placement limits, saves, awakening, stats of the remaining units, modes and matchmaking; hub transitions, interactions and match launch | **Claude** (Studio thread + this repo) |
+| Visuals: original 3D models of units and enemies, portraits, icons, hub decor, screens and HUD for PC and mobile | **Astra** |
+
+Astra's first task is one model of an existing unit plus its inventory card, to check the style and the integration before the whole roster is reworked.
+
+### Shared files (who edits what)
+- **`ServerScriptService.TD.Services.UnitService`** places units (logic, Claude) **and** builds their look through `buildFigure` (visual hook). Astra prepares models separately: a Model per unit id under `ServerStorage.TDUnitModels`, following the contract below. Wiring a new model into `UnitService` is **one agreed edit** made by Claude; Astra does not edit `UnitService` directly.
+- **`ServerScriptService.TD.Services.EnemyService`** works the same way: enemies are anchored root parts moved along the path, and the model is welded to that root. Models go in `ServerStorage.TDEnemyModels`.
+- **`ServerScriptService.TD.Services.HubDecor`** belongs to Astra (decor only). **`HubBuilder`, `HubService` and `HubConfig`** belong to Claude (layout, portals, stations, interactions). New decor must not block portals, station prompts or the spawn.
+- **Client UI** (`StarterPlayerScripts.TD`: `Hud`, `Menus`, the screens): Astra owns the look. Claude owns the data the screens read and the remotes they call. Changing a remote's name or payload needs a note here first.
+- **`ReplicatedStorage.TD.Config`** belongs to Claude. Astra reads it and never writes to it.
+
+### Model contract (proposed; the Studio thread confirms or corrects)
+- One `Model` named after the unit or enemy id, with a `PrimaryPart` called **`Root`** at the feet, centred, facing −Z. The model is unanchored and welded to `Root`, with no scripts and no humanoid unless one is agreed.
+- Unit height is about 5–7.5 studs (chibi). Enemy size follows `Size` in Config: about 2 studs for regular enemies, up to 11 for bosses.
+- Attachments that combat effects and UI may use:
+  - **`FxOrigin`**: start point of beams and projectiles (weapon tip or hands).
+  - **`Overhead`**: anchor for the level, ability-cooldown and limit billboard, about 1 stud above the head.
+  - **`HitPoint`**: where hits land on enemies (body centre).
+  - **`Aura`**: optional, for status tints and rings.
+- The status tint is applied to the model's parts by `StatusService`, so avoid textures that hide colour changes.
+- Every asset must be original, with its source and licence listed in the asset manifest.
+
+### Entries per system (id → UI data → player action → server result)
+| System | UI reads | Player action (remote) | Server result |
+|---|---|---|---|
+| Placement | `Config.Units[id]` (Cost, PlacementLimit), own wallet in the match, placed counts | `PlaceUnit(unitId, position)` | a unit is placed and money spent, or a refusal with a reason ("Limit reached: <Name> 3/3", "Unit limit 10/10", not enough money, bad position); the button shows "2/3 placed" |
+| Upgrade / Sell | unit `Levels`, the owner | `UpgradeUnit(model)`, `SellUnit(model)` | owner only; the upgrade costs the owner's money, and selling refunds 70% to the owner |
+| Ability | `Ability` (Name, Cooldown, Description) | `UseAbility(model)` | the effect plus the cooldown end time (server time) |
+| Target mode | — | `SetTargetMode(model, mode)` | the mode is stored on the unit |
+| Match wallet | per-player balance (server-written) | — | kill and wave rewards go to each player; income and sell refunds go to the unit's owner |
+| Summon | `Banners`, profile pity | `Summon(bannerId, 1 or 10)` (RemoteFunction) | results with shiny flags, or a refusal |
+| Team | profile `Units`, `Team` | `SetTeam(ids)` | saved, or a refusal with a reason |
+| Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), evolved def from `Evolutions.build` | evolve request (remote from the Studio thread) | the new unit (level and trait carried over) or a refusal with a reason |
+| UltraRare | `Progression.profileId(id, def)` returns "UltraRare" | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
+
+### Open tasks for Astra
+- [ ] First model + inventory card for one existing unit (suggested: `Kaze`, which has an evolution `KazeGalehawk` to show next to it). Follow the model contract above.
+- [ ] Models for the 16 evolved units (prompts are the `Look` fields in `content/Evolutions.lua`).
 
 ## Rules for any contributor
 - Original content only, inspired by genres but never copied.
