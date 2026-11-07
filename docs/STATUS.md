@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 20:55 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 21:25 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -27,7 +27,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
   - **Hub**: `HubService` is started by GameServer. It calls `HubBuilder`, which builds "Meridian Isle" from `HubConfig` at (0,0,400) at runtime only, and `HubBuilder` calls `HubDecor` for the decoration. The hub appears as `Workspace.Hub` during Play and is not saved in the place.
   - Multiplayer (design in PR #3, `docs/multiplayer/`): `PartyService`, `MatchLaunchService` and `MatchServerBridge`. Today it uses the local strategy; reserved servers in a separate Match place are ready but untested.
 - Client: `StarterPlayerScripts.TD` (`TDClient` controller, `Hud`, `Menus`, plus the new UI screens built on one shared design system).
-- `Workspace`: `TDMap` (Training Grounds) and `AshVeilValley` (Story world 1 map).
+- `Workspace`: `TDMap` (Training Grounds, centre (0,0,0)), `AshVeilValley` (Story world 1, centre (600,0,0)) and `TwilightThreshold` (Story world 2, centre (1200,0,0), functional greybox).
 - Server-authoritative everywhere: clients send intent only, and every remote is validated and throttled.
 
 ## Live unit ids
@@ -42,6 +42,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 ## Done and verified in Studio (play mode via MCP)
 - **Core TD loop:** placement, combat, upgrades, sell, abilities, target modes, Auto Abilities and Auto Upgrade, win/loss, rewards. Statuses: Slow, Stun, Burn, ArmorBreak, Poison and Mark. Element chart, flying enemies, Chain and Pierce attacks.
 - **Infinite Mode:** endless scaling with a boss every 10 waves, rewards by wave reached and a personal best. Verified locally.
+- **Story world 2, Twilight Threshold:** live as a functional greybox. Its enemies, materials and the mechanics SwordWave, Reflect, Unbound (armor switch) and ShieldSelf run server-side; their visuals are simple CombatFx beams and rings for now.
 - **Story world 1, Ash Veil Valley:** map plus stages that unlock in order. Trying to start a locked stage is rejected, and the lobby marks locked stages in red.
 - **Hub "Meridian Isle":** Story portal queue for 1–6 players, return to hub, stations, and 3D NPCs Luma and Oro with dialogue.
 - **New UI** (one design system): hub HUD with PLAY and a mode board, Summon, Trait Reroll x1/x10, Collection Book, Units (team of 6, Level Up, Star Up), Evolution, Match Results, NPC dialogue and unified toasts. The combat HUD is separate from the hub HUD.
@@ -58,7 +59,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **Mobile layout** on a real device, screenshots of the new UI and hub on PC, and the NPC model orientation.
 - Server checks for awakening questlines (`Progression.Awakenings`, Tokiya).
 - 3D models: the 10 second-batch units, the evolved units and most pack enemies still use primitive figures or the base model.
-- Story worlds 2–4 (data in `content/Worlds/`), map 2 Sunken Lantern Shrine, and a `Secret` rarity in `TD.Rarities`.
+- Story worlds 3–4 (data in `content/Worlds/`); world 2 needs decor and enemy models, map 2 Sunken Lantern Shrine, and a `Secret` rarity in `TD.Rarities`.
 - Mirroring the place source into this repo, which is waiting for an `.rbxlx` export from the owner.
 
 ## Open pull requests (repo)
@@ -141,9 +142,31 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 | Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), `GetProfile().Materials` | `Evolve(unitId, pathId)` | `ok, msg`; the new unit keeps level and trait |
 | UltraRare | profile id "UltraRare", `Progress[unitId].MasteryXp` | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
 
+### Map rules for decoration passes
+These apply to `Workspace.TDMap` (centre (0,0,0)), `Workspace.AshVeilValley` (centre (600,0,0)) and `Workspace.TwilightThreshold` (centre (1200,0,0), `ModelStreamingMode` Persistent). Each map is a 200×200 square.
+
+**Gameplay-critical: do not move, rename or resize these.**
+- **`Ground`** (Part, top at y = 0.5). Unit placement raycasts hit only this part, so the visible ground must match it.
+- **The enemy path is data**, for example `Config.Maps.TwilightThreshold.Waypoints` (module `TD.WorldTwilight`). `Path/Segment1..N` are only visual stripes. They can be restyled but must stay on the same line. Placement is blocked within about 7 studs of the path.
+- **`PlayerSpawn`**: players teleport here at match start. In Twilight it is at (1200, 0.7, 88).
+- **`SpawnGate`**, where enemies appear, and **`CoreBase`/`Core`**, the core. In Twilight they are at (1100, −70) and (1300, −20). Keep both in place.
+
+**Free to change**
+- The `Decor` folder (in Twilight, currently 4 boundary walls) can be replaced.
+- Keep everything inside the 200×200 square. A half-size of 100 is the placement bound.
+
+### Twilight Threshold data for UI and models
+- Lobby stage labels come from `Config.Worlds.TwilightThreshold.Stages[n].Name`.
+- The materials `SoulWick`, `VerdictChain` and `FerrymansCoin` are in `Config.Materials`.
+- Enemy models go in `ServerStorage.TDEnemyModels/<id>`, front facing −Z. Their look prompts are in `content/Worlds/TwilightThreshold.lua`.
+  - Regular: `Wraithling`, `MaskedRevenant`, `CorruptedRonin`, `SoulMoth` (Flying).
+  - Elite: `ChainboundWarden`, `BladeWraithCaptain`.
+  - Miniboss: `SeveredJudge`. Boss: `YomikageFerryman`.
+
 ### Open tasks for Astra
 - [ ] **First:** a model for `Kaze` in `ReplicatedStorage.TD.UnitModels/Kaze` plus its inventory card. Follow the live contract above: one Model, front facing −Z, pivot at the centre, optional `Muzzle` at the bow. The card reads `Config.Units.Kaze` and `GetProfile().Progress.Kaze`.
 - [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Their look prompts are in `TD.ContentPack2` (and in `content/Units.lua` → `Look`).
+- [ ] Twilight Threshold: a decor pass on `Workspace.TwilightThreshold` (follow the map rules above) and models for its 8 enemies.
 - [ ] Models for the 16 evolved units (prompts: the `Look` fields in `content/Evolutions.lua`). Until a model exists, the base unit's model is used.
 
 ## Rules for any contributor
