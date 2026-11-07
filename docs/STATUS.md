@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 20:50 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 20:55 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -32,8 +32,11 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 
 ## Live unit ids
 - Original 6: `Spark` (Ren Voltblade), `Mortar` (Mira Emberfall), `Frost` (Yuki Frostveil), `Tycoon` (Baron Goldmane), `Kaze`, `Tora`.
-- Pack units live: `Pip`, `Hana`, `Gus`, `Rin`, `Momo`, `Kaito`, `Jin`, `Nami`, `Akane`, `Seren`.
-- Not integrated yet: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. They need new ability code: RiptideWave, Encore, Permafrost, Faultline, Thunderthrone, InfernoDive, TotalEclipse, Daybreak and TimeStop, plus the passives Haggle, Execute, Purify and BorrowedTime.
+- Pack units, first batch: `Pip`, `Hana`, `Gus`, `Rin`, `Momo`, `Kaito`, `Jin`, `Nami`, `Akane`, `Seren`.
+- Pack units, second batch (live since 2026-11-07, module `TD.ContentPack2`, damage divided by 2.5 to fit the live scale): `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`.
+  - These abilities were seen firing in play: RiptideWave, Encore, Permafrost, Faultline, Thunderthrone, InfernoDive, TotalEclipse, Daybreak and TimeStop.
+  - The passives Execute, Purify, Haggle and BorrowedTime are implemented, as is Lumi's aura.
+- Standard banner: Mythic 0.5% (Kurenai, Aeris) and Common 59.5%. `Tokiya` is Exclusive, uses the UltraRare profile and is on no banner.
 - Evolved units: 16 ids from `content/Evolutions.lua`, such as `KazeGalehawk` and `RenGatebreaker`.
 
 ## Done and verified in Studio (play mode via MCP)
@@ -53,8 +56,8 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **DataStore persistence:** Studio API access is off, so profiles run in memory.
 - **Cross-place teleports** to reserved match servers, which only work on a published place.
 - **Mobile layout** on a real device, screenshots of the new UI and hub on PC, and the NPC model orientation.
-- The 10 unintegrated units above, and server checks for awakening questlines (`Progression.Awakenings`, Tokiya).
-- 3D models for evolved units; most pack units and pack enemies still use primitive figures.
+- Server checks for awakening questlines (`Progression.Awakenings`, Tokiya).
+- 3D models: the 10 second-batch units, the evolved units and most pack enemies still use primitive figures or the base model.
 - Story worlds 2–4 (data in `content/Worlds/`), map 2 Sunken Lantern Shrine, and a `Secret` rarity in `TD.Rarities`.
 - Mirroring the place source into this repo, which is waiting for an `.rbxlx` export from the owner.
 
@@ -76,22 +79,52 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 Astra's first task is one model of an existing unit plus its inventory card, to check the style and the integration before the whole roster is reworked.
 
 ### Shared files (who edits what)
-- **`ServerScriptService.TD.Services.UnitService`** places units (logic, Claude) **and** builds their look through `buildFigure` (visual hook). Astra prepares models separately: a Model per unit id under `ServerStorage.TDUnitModels`, following the contract below. Wiring a new model into `UnitService` is **one agreed edit** made by Claude; Astra does not edit `UnitService` directly.
-- **`ServerScriptService.TD.Services.EnemyService`** works the same way: enemies are anchored root parts moved along the path, and the model is welded to that root. Models go in `ServerStorage.TDEnemyModels`.
+- **`ServerScriptService.TD.Services.UnitService`** places units (logic, Claude) **and** builds their look through `buildFigure` (visual hook). Astra prepares models separately: a Model per unit id under `ReplicatedStorage.TD.UnitModels`, following the contract below. Wiring a new model into `UnitService` is **one agreed edit** made by Claude; Astra does not edit `UnitService` directly.
+- **`ServerScriptService.TD.Services.EnemyService`** (`spawn`) works the same way: enemies are invisible roots moved along the path, and the model is welded to that root. Models go in `ServerStorage.TDEnemyModels`. Hub NPC models go in `ServerStorage.TDHubProps`.
 - **`ServerScriptService.TD.Services.HubDecor`** belongs to Astra (decor only). **`HubBuilder`, `HubService` and `HubConfig`** belong to Claude (layout, portals, stations, interactions). New decor must not block portals, station prompts or the spawn.
 - **Client UI** (`StarterPlayerScripts.TD`: `Hud`, `Menus`, the screens): Astra owns the look. Claude owns the data the screens read and the remotes they call. Changing a remote's name or payload needs a note here first.
 - **`ReplicatedStorage.TD.Config`** belongs to Claude. Astra reads it and never writes to it.
 
-### Model contract (proposed; the Studio thread confirms or corrects)
-- One `Model` named after the unit or enemy id, with a `PrimaryPart` called **`Root`** at the feet, centred, facing −Z. The model is unanchored and welded to `Root`, with no scripts and no humanoid unless one is agreed.
-- Unit height is about 5–7.5 studs (chibi). Enemy size follows `Size` in Config: about 2 studs for regular enemies, up to 11 for bosses.
-- Attachments that combat effects and UI may use:
-  - **`FxOrigin`**: start point of beams and projectiles (weapon tip or hands).
-  - **`Overhead`**: anchor for the level, ability-cooldown and limit billboard, about 1 stud above the head.
-  - **`HitPoint`**: where hits land on enemies (body centre).
-  - **`Aura`**: optional, for status tints and rings.
-- The status tint is applied to the model's parts by `StatusService`, so avoid textures that hide colour changes.
+### Model contract (live, confirmed by the Studio thread)
+- **Where models go**
+
+| Kind | Location |
+|---|---|
+| Unit | `ReplicatedStorage.TD.UnitModels/<unitId>` |
+| Enemy | `ServerStorage.TDEnemyModels/<enemyId>` |
+| Hub NPC | `ServerStorage.TDHubProps/Npc_<StationId>` |
+
+- **Unit** (`UnitService.buildFigure`, owned by the Studio thread)
+  - Any single `Model`, front facing local −Z, pivot at the geometric centre.
+  - The code scales it to **6.2 studs** tall, places it 0.6 studs above a code-made pedestal `Base` (which carries the `LvN` billboard), and renames it `Visual`. All parts are forced Anchored and CanCollide false.
+  - `FxClient` moves `Visual` with `PivotTo`, so the model must be **one Model**.
+  - An optional BasePart named **`Muzzle`** is where projectiles start; without one, the first part is used.
+  - No PrimaryPart, Root or attachments are required.
+  - An evolved unit without its own model uses its base unit's model.
+- **Enemy** (`EnemyService.spawn`)
+  - Any Model, front facing −Z.
+  - The code scales it to **`Size` × 1.3** studs tall, centres it on an invisible root and welds it unanchored.
+  - The status ring and HP billboard are made by code. No parts are required.
+- **NPC**
+  - Any Model. The code scales it to **7.5 studs** tall, puts its bottom on the floor and turns it to face the station's CFrame.
+- **Names the server reads:** only `Muzzle`. `FxOrigin`, `Overhead`, `HitPoint` and `Aura` are not read yet; they are optional and reserved for future use.
+- Status tints are applied to the model's parts by code, so avoid textures that hide colour changes.
 - Every asset must be original, with its source and licence listed in the asset manifest.
+
+### Remotes and state (`ReplicatedStorage.TD.Remotes`)
+- **RemoteFunctions**
+  - `Summon(bannerId, 1|10)` → `ok, { Results = {{ Id, Rarity, Shiny }}, Pity, PityAt }`
+  - `GetProfile()` → `{ Gems, Gold, Units = {{ Uid, Id, Shiny, Level }}, Team, Pity, Discovered, Progress[unitId] = { Level, Stars, Trait, MasteryXp }, Milestones, TraitRerolls, Materials, StoryCleared, InfiniteBest, Stats }`
+  - `Progress("LevelUp"|"StarUp"|"RollTrait", unitId)` → `ok, msg`
+  - `TraitReroll(unitId, 1|10)` → `ok, { Trait, Rolls }`
+  - `SetTeamSync({ unitIds })` → `ok, why`
+  - `Evolve(unitId, pathId)` → `ok, msg`
+- **RemoteEvents**
+  - Client to server: `PlaceUnit(unitId, Vector3)`, `UpgradeUnit(model)`, `SellUnit(model)`, `SetTargetMode(model, mode)`, `UseAbility(model)`, `SetAutoSetting("Ability"|"Upgrade", bool)`, `RequestStart`, `RequestReplay`, `SetTeam`, `LobbyAction(action, arg)`, `HubReturn`.
+  - Server to client: `Notify`, `MatchResult` (`{ Won, Title, Wave, Rewards = {{ Icon, Label, Amount, Rarity }}, CanReplay }`), `LobbyState`, `HubOpenMenu(menuId, stationId)`.
+  - Unreliable server to client: `CombatFx(kind, a, b, color, size, life)` with kinds `beam`, `lob`, `burst`, `ring`, `pillar` and `attack`.
+- **Player attributes:** `Gems`, `Gold`, `TraitRerolls`, `Team`, `MatchMoney`, `HubLocation`, `AutoAbility`, `AutoUpgrade`.
+- **`ReplicatedStorage.TD.State` attributes:** `Phase`, `Wave`, `MaxWaves`, `Lives`, `Countdown`, `EnemiesLeft`, `Mode`, `MapId`, `Difficulty`, `BossName`, `BossHp`, `StartMoney`.
 
 ### Entries per system (id → UI data → player action → server result)
 | System | UI reads | Player action (remote) | Server result |
@@ -100,15 +133,18 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 | Upgrade / Sell | unit `Levels`, the owner | `UpgradeUnit(model)`, `SellUnit(model)` | owner only; the upgrade costs the owner's money, and selling refunds 70% to the owner |
 | Ability | `Ability` (Name, Cooldown, Description) | `UseAbility(model)` | the effect plus the cooldown end time (server time) |
 | Target mode | — | `SetTargetMode(model, mode)` | the mode is stored on the unit |
-| Match wallet | per-player balance (server-written) | — | kill and wave rewards go to each player; income and sell refunds go to the unit's owner |
-| Summon | `Banners`, profile pity | `Summon(bannerId, 1 or 10)` (RemoteFunction) | results with shiny flags, or a refusal |
-| Team | profile `Units`, `Team` | `SetTeam(ids)` | saved, or a refusal with a reason |
-| Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), evolved def from `Evolutions.build` | evolve request (remote from the Studio thread) | the new unit (level and trait carried over) or a refusal with a reason |
-| UltraRare | `Progression.profileId(id, def)` returns "UltraRare" | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
+| Match wallet | player attribute `MatchMoney` | — | kill and wave rewards go to each player; income and sell refunds go to the unit's owner |
+| Summon | `Banners`, `GetProfile().Pity` | `Summon(bannerId, 1|10)` | `ok, { Results, Pity, PityAt }` |
+| Team | `GetProfile().Units`, `Team` | `SetTeamSync({ unitIds })` | `ok, why` |
+| Level / Stars / Trait | `GetProfile().Progress[unitId]` | `Progress("LevelUp"|"StarUp"|"RollTrait", unitId)`, `TraitReroll(unitId, 1|10)` | `ok, msg` / `ok, { Trait, Rolls }` |
+| Match end | — | `RequestReplay`, `HubReturn` | `MatchResult` event with rewards and `CanReplay` |
+| Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), `GetProfile().Materials` | `Evolve(unitId, pathId)` | `ok, msg`; the new unit keeps level and trait |
+| UltraRare | profile id "UltraRare", `Progress[unitId].MasteryXp` | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
 
 ### Open tasks for Astra
-- [ ] First model + inventory card for one existing unit (suggested: `Kaze`, which has an evolution `KazeGalehawk` to show next to it). Follow the model contract above.
-- [ ] Models for the 16 evolved units (prompts are the `Look` fields in `content/Evolutions.lua`).
+- [ ] **First:** a model for `Kaze` in `ReplicatedStorage.TD.UnitModels/Kaze` plus its inventory card. Follow the live contract above: one Model, front facing −Z, pivot at the centre, optional `Muzzle` at the bow. The card reads `Config.Units.Kaze` and `GetProfile().Progress.Kaze`.
+- [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Their look prompts are in `TD.ContentPack2` (and in `content/Units.lua` → `Look`).
+- [ ] Models for the 16 evolved units (prompts: the `Look` fields in `content/Evolutions.lua`). Until a model exists, the base unit's model is used.
 
 ## Rules for any contributor
 - Original content only, inspired by genres but never copied.
