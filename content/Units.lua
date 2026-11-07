@@ -14,7 +14,7 @@
 local Units = {}
 
 -------------------------------------------------------------------- COMMON
-Units.PipCopperbolt = {
+Units.Pip = {
 	Name = "Pip Copperbolt",
 	Rarity = "Common",
 	Role = "DPS",
@@ -36,7 +36,7 @@ Units.PipCopperbolt = {
 	Look = "Chibi teen mechanic with spiky copper hair and oversized goggles, yellow work overalls covered in patches, holding a stubby tesla-coil pistol wrapped in tape, small spark wisps around the hands",
 }
 
-Units.HanaThornshot = {
+Units.Hana = {
 	Name = "Hana Thornshot",
 	Rarity = "Common",
 	Role = "DPS",
@@ -57,7 +57,7 @@ Units.HanaThornshot = {
 	Look = "Chibi forest girl with mossy green twin buns, leaf-patterned short kimono, wooden slingshot carved like a vine, pouch of glowing seeds on the belt",
 }
 
-Units.GusPebblefist = {
+Units.Gus = {
 	Name = "Gus Pebblefist",
 	Rarity = "Common",
 	Role = "Splash",
@@ -78,7 +78,7 @@ Units.GusPebblefist = {
 	Look = "Stocky chibi boy with a buzz cut and a headband, sleeveless brown gi, huge stone gauntlets with cracks glowing orange, bare feet",
 }
 
-Units.RinPaperkite = {
+Units.Rin = {
 	Name = "Rin Paperkite",
 	Rarity = "Common",
 	Role = "AntiAir",
@@ -100,7 +100,7 @@ Units.RinPaperkite = {
 	Look = "Chibi courier girl with a short white bob and a red scarf, holding a large folded-paper kite that she throws like a boomerang, paper charms floating around",
 }
 
-Units.MomoLanternbell = {
+Units.Momo = {
 	Name = "Momo Lanternbell",
 	Rarity = "Common",
 	Role = "Support",
@@ -123,7 +123,7 @@ Units.MomoLanternbell = {
 }
 
 -------------------------------------------------------------------- RARE
-Units.SoraTidecaller = {
+Units.Sora = {
 	Name = "Sora Tidecaller",
 	Rarity = "Rare",
 	Role = "Control",
@@ -145,7 +145,7 @@ Units.SoraTidecaller = {
 	Look = "Chibi fisher boy with messy sea-blue hair, rolled-up navy pants, sailor collar shirt, holding a giant conch shell that sprays water, small fish charm on the neck",
 }
 
-Units.KaitoAshveil = {
+Units.Kaito = {
 	Name = "Kaito Ashveil",
 	Rarity = "Rare",
 	Role = "DPS",
@@ -167,7 +167,7 @@ Units.KaitoAshveil = {
 	Look = "Chibi ninja-courier with ash-grey hair over one eye, charcoal hooded haori with torn hem, twin short daggers with purple smoke trails, mask covering the lower face",
 }
 
-Units.LumiStarpetal = {
+Units.Lumi = {
 	Name = "Lumi Starpetal",
 	Rarity = "Rare",
 	Role = "Support",
@@ -189,7 +189,7 @@ Units.LumiStarpetal = {
 	Look = "Chibi idol-priestess with pale lilac long hair and star hairpins, white and gold layered dress, holding a microphone-shaped staff topped with a glowing flower",
 }
 
-Units.JinIronbloom = {
+Units.Jin = {
 	Name = "Jin Ironbloom",
 	Rarity = "Rare",
 	Role = "AntiArmor",
@@ -210,7 +210,7 @@ Units.JinIronbloom = {
 	Look = "Chibi blacksmith girl with a high brown ponytail and soot on the cheek, leather apron over a red tunic, giant hammer whose head is a blooming iron flower",
 }
 
-Units.NamiGale = {
+Units.Nami = {
 	Name = "Nami Gale",
 	Rarity = "Rare",
 	Role = "DPS",
@@ -232,7 +232,7 @@ Units.NamiGale = {
 }
 
 -------------------------------------------------------------------- EPIC
-Units.AkaneCrimsonwire = {
+Units.Akane = {
 	Name = "Akane Crimsonwire",
 	Rarity = "Epic",
 	Role = "DPS",
@@ -254,7 +254,7 @@ Units.AkaneCrimsonwire = {
 	Look = "Chibi circus acrobat with crimson twin tails, black and red ringmaster jacket with gold buttons, a burning chain-whip coiled around one arm, smirk",
 }
 
-Units.HaruGlacierheart = {
+Units.Haru = {
 	Name = "Haru Glacierheart",
 	Rarity = "Epic",
 	Role = "Control",
@@ -276,7 +276,7 @@ Units.HaruGlacierheart = {
 	Look = "Calm chibi swordsman with frosty white hair tied low, pale blue haori with snowflake crest, a katana made of translucent ice resting on the shoulder, breath visible",
 }
 
-Units.SerenMoonquill = {
+Units.Seren = {
 	Name = "Seren Moonquill",
 	Rarity = "Epic",
 	Role = "Support",
@@ -298,7 +298,7 @@ Units.SerenMoonquill = {
 	Look = "Chibi scholar with long navy hair and round glasses, star-map cloak, floating open book and a quill pen that writes glowing runes in the air",
 }
 
-Units.DaichiQuakeborn = {
+Units.Daichi = {
 	Name = "Daichi Quakeborn",
 	Rarity = "Epic",
 	Role = "Splash",
@@ -321,7 +321,7 @@ Units.DaichiQuakeborn = {
 }
 
 -------------------------------------------------------------------- LEGENDARY
-Units.ValkaStormcrown = {
+Units.Valka = {
 	Name = "Valka Stormcrown",
 	Rarity = "Legendary",
 	Role = "DPS",
@@ -343,7 +343,7 @@ Units.ValkaStormcrown = {
 	Look = "Proud chibi warrior queen with silver braided hair and a jagged gold crown crackling with lightning, dark blue armored dress with a cape, spear made of a frozen lightning bolt",
 }
 
-Units.RyuAshenwing = {
+Units.Ryu = {
 	Name = "Ryu Ashenwing",
 	Rarity = "Legendary",
 	Role = "AntiAir",
@@ -366,7 +366,7 @@ Units.RyuAshenwing = {
 	Look = "Chibi sky-rider with black hair streaked ember orange, aviator jacket with fur collar, mechanical wings of charred metal feathers glowing at the edges, flame lance",
 }
 
-Units.OzuGoldleaf = {
+Units.Ozu = {
 	Name = "Ozu Goldleaf",
 	Rarity = "Legendary",
 	Role = "Economy",
@@ -389,7 +389,7 @@ Units.OzuGoldleaf = {
 }
 
 -------------------------------------------------------------------- MYTHIC
-Units.KurenaiEclipse = {
+Units.Kurenai = {
 	Name = "Kurenai of the Eclipse",
 	Rarity = "Mythic",
 	Role = "DPS",
@@ -412,7 +412,7 @@ Units.KurenaiEclipse = {
 	Look = "Elegant chibi swordswoman with long black hair fading to crimson tips, eyes with eclipse rings, black kimono with a red moon pattern, a long nodachi trailing dark mist, half-moon halo",
 }
 
-Units.AerisDawnbreaker = {
+Units.Aeris = {
 	Name = "Aeris Dawnbreaker",
 	Rarity = "Mythic",
 	Role = "DPS",
@@ -436,7 +436,7 @@ Units.AerisDawnbreaker = {
 }
 
 -------------------------------------------------------------------- EXCLUSIVE
-Units.TokiyaClockveil = {
+Units.Tokiya = {
 	Name = "Tokiya Clockveil",
 	Rarity = "Exclusive",
 	Role = "Control",

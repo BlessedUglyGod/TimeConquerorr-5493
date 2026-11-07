@@ -30,14 +30,16 @@ Progression.Limits = {
 	-- Fallback when a unit has no PlacementLimit: by Role, then by rarity.
 	ByRole = { Economy = 3, Support = 3 },
 	ByRarity = { Common = 6, Rare = 4, Epic = 3, Legendary = 2, Mythic = 2, Secret = 1, Exclusive = 1 },
-	-- Original 6 live units (ids as guessed in content/Evolutions.lua BaseIds; fix both together).
+	-- Every live unit, by live Config id (also covers units whose def has no PlacementLimit yet).
 	ById = {
-		RenVoltblade = 4, -- Rare single-target DPS
-		MiraEmberfall = 3, -- Epic splash + Meteor
-		YukiFrostveil = 4, -- Rare control
-		BaronGoldmane = 3, -- Legendary economy
-		KazeSwiftarrow = 6, -- Common long range
-		ToraIronfist = 5, -- Common short splash
+		Spark = 4, -- Ren, Rare single-target DPS
+		Mortar = 3, -- Mira, Epic splash + Meteor
+		Frost = 4, -- Yuki, Rare control
+		Tycoon = 3, -- Baron, Legendary economy
+		Kaze = 6, -- Common long range
+		Tora = 5, -- Common short splash
+		Pip = 6, Hana = 5, Gus = 5, Rin = 5, Momo = 4,
+		Kaito = 4, Jin = 4, Nami = 4, Seren = 3, Akane = 3,
 	},
 	-- Optional per-mode overrides, e.g. a challenge that allows only one copy of everything.
 	Modes = {
@@ -49,8 +51,8 @@ Progression.Limits = {
 -- Returns the per-player limit for one unit in a mode (mode may be nil).
 function Progression.placementLimit(unitId, def, mode)
 	local L = Progression.Limits
-	local limit = (def and def.PlacementLimit)
-		or L.ById[unitId]
+	local limit = L.ById[unitId]
+		or (def and def.PlacementLimit)
 		or (def and def.EvolvedFrom and L.ById[def.EvolvedFrom]) -- evolved forms of the original 6
 		or (def and L.ByRole[def.Role])
 		or (def and L.ByRarity[def.Rarity])
@@ -111,7 +113,7 @@ Progression.RarityProfiles = {
 
 -- Unit-level opt-ins, for special unique evolved units and one-offs.
 Progression.UnitProfiles = {
-	TokiyaClockveil = "UltraRare", -- Exclusive (already UltraRare by rarity, listed for clarity)
+	Tokiya = "UltraRare", -- Exclusive (already UltraRare by rarity, listed for clarity)
 	-- Special unique evolved units go here when designed, e.g. a Mythic's awakened form.
 }
 
@@ -156,7 +158,7 @@ Progression.Mastery = {
 -- Rewards: StatMul { Damage, Range, Cooldown }, AbilityParams { key = value } (merged into Ability),
 --   Passive (id), Visual (model/aura id), Title. Each step needs the previous one.
 Progression.Awakenings = {
-	TokiyaClockveil = {
+	Tokiya = {
 		Signature = { Id = "HourglassSand", Name = "Hourglass Sand", Source = "Boss drop: The Hourless Shogun (map 2) and Morrag, the Ashen Sovereign (Gatefall City S-rank)" },
 		Steps = {
 			{
