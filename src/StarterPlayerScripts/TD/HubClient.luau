@@ -49,8 +49,8 @@ local function buildReturnButton(): ScreenGui
 	gui.Enabled = false
 	local button = Instance.new("TextButton")
 	button.Name = "Return"
-	button.AnchorPoint = Vector2.new(0, 1)
-	button.Position = UDim2.new(0, 12, 1, -12)
+	button.AnchorPoint = Vector2.new(1, 0)
+	button.Position = UDim2.new(1, -12, 0, 12) -- top right, clear of the battle HUD
 	button.Size = UDim2.fromOffset(150, 44)
 	button.BackgroundColor3 = Color3.fromRGB(40, 44, 80)
 	button.TextColor3 = Color3.new(1, 1, 1)

@@ -79,8 +79,8 @@ Found cogs are tracked per player (`HubCogs` attribute now, profile field in H3)
 |---|---|---|---|
 | Summon | Starfall Sanctum altar + banner board | `Summon` | existing `SummonService`, `Menus` summon window |
 | Team & Collection | Workshop desk, Clockkeeper Oro | `Team` | existing `Menus` team window |
-| Upgrade / evolve | Workshop forge | `Upgrade` | to build |
-| Traits / potential | Workshop trait well | `Traits` | to build |
+| Upgrade / evolve | Workshop forge | `Team` now, `Upgrade` in H3 | Team window for now |
+| Traits / potential | Workshop trait well | `Team` now, `Traits` in H3 | Team window for now |
 | Shops | Lantern Market | `ShopGold`, `ShopEvent` | to build |
 | Quests / season pass | Wayfarers' Hall | `Quests`, `Pass` | to build |
 | Guide / tutorial | Plaza, Archivist Lumi | `Guide` | to build |
@@ -91,4 +91,4 @@ Found cogs are tracked per player (`HubCogs` attribute now, profile field in H3)
 - The hub is a `Folder` `Workspace.Hub`, built at server start by `HubBuilder.build()` from `HubConfig`. It sits at `HubConfig.Origin = (0, 0, 400)` (island spans z 230..570), clear of `Workspace.TDMap` around the origin.
 - Part budget for H1: about 250 parts. H2 target under 3,000 parts with StreamingEnabled-friendly models (one Model per zone).
 - Security: queues, travel, station access and cog pickup are decided on the server. The only client remote is `HubReturn` (no arguments, throttled, only works while in a match). Stations open menus through server-fired `HubOpenMenu`; the menus themselves still validate every action on the server as they do today.
-- Mobile: stations use `ProximityPrompt`, which has a tap button on touch devices; portals need only walking. The Return button is 150×44 px.
+- Mobile: stations use `ProximityPrompt`, which has a tap button on touch devices; portals need only walking. The Return button is 150×44 px in the top right corner.

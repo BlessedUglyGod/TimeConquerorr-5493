@@ -341,6 +341,22 @@ function HubService.onMatchEnded()
 	end)
 end
 
+-- Players currently on the match map. GameServer resets the match when this drops to 0.
+function HubService.countInMatch(): number
+	local n = 0
+	for _, p in Players:GetPlayers() do
+		if p:GetAttribute(LOCATION_ATTR) == "Match" then
+			n += 1
+		end
+	end
+	return n
+end
+
+-- True when the player is on the map; GameServer gates PlaceUnit / RequestStart with it.
+function HubService.isInMatch(player: Player): boolean
+	return player:GetAttribute(LOCATION_ATTR) == "Match"
+end
+
 function HubService.getBuilt(): HubBuilder.BuiltHub?
 	return built
 end

@@ -12,10 +12,11 @@ Goal: players spawn in a hub, walk to a portal, play a match, come back. Existin
 - [x] `HubBuilder`: island, Plaza, Meridian Spire, 8 zone platforms with walkways and signs, portal arches with queue pads, stations, NPC placeholders, waterfall + hidden ledge, Spire spiral, 3 Lost Cogs — primitives only
 - [x] `HubService`: spawn in hub, portal queues (min/max players, countdown, status billboard), Local travel to `TDMap`, Teleport travel stub (reserved server + retry, off in Studio), station prompts → `HubOpenMenu`, `HubReturn`, auto-return after match, respawn on the right side, fall-off safety net, cog pickup
 - [x] `HubClient`: menu registry, Return to Hub button, location listeners (hide battle HUD in the hub)
-- [ ] Studio integration by the executor (see `INTEGRATION.md`): wire `canStartLocal`, `onTravel` → start flow, `onMatchEnded`, register `Summon` / `Team` menus
-- [ ] Playtest: spawn, Story portal solo, 2-player queue, return, respawn during a match, Summon and Team from stations, mobile prompt tap
+- [x] Studio integration by the executor (2026-11-07): `canStartLocal`, `onTravel` → start flow, `onMatchEnded`, `Summon` / `Team` menus, remote gating by `HubLocation`, empty-map reset, `TDMap.PlayerSpawn`, persistent map streaming
+- [x] Playtest: spawn, Story portal solo, return, respawn during a match, Summon and Team from stations
+- [ ] Playtest still open: 2-player queue, Lost Cogs, mobile prompt tap
 
-Active in H1: Story portal, Summon altar + banner board, Team desk, Clockkeeper Oro, Archivist Lumi (shows a toast until the Guide menu exists). Everything else is built but shows "Coming soon".
+Active in H1: Story portal, Summon altar + banner board, Team desk, Upgrade Forge and Trait Well (both open the Team window for now), Clockkeeper Oro, Archivist Lumi (shows a toast until the Guide menu exists). Everything else is built but shows "Coming soon".
 
 **Exit:** a new player can join, summon, set a team and start a match without touching the HUD buttons.
 
