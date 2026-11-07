@@ -7,14 +7,14 @@ Status key: **Spec** = layout agreed, **Code** = Luau in this repo, **Live** = i
 | System | Station in the hub | Backend today | Status |
 |---|---|---|---|
 | Hub HUD + Gate Board | — | player attrs, `ModeLobbyConfig` | Code |
-| Summon | Starfall Sanctum altar + banner board | `Summon` RemoteFunction, `Banners`, `SummonService` | Spec (code next) |
-| Trait Reroll | Workshop, Trait Well | traits on units (Phase 3) | Spec (code next) |
-| Units / Team | Workshop desk, Clockkeeper Oro | `SetTeam`, `GetProfile` | Spec |
-| Collection Book | Workshop desk tab | `Profile.Discovered` | Spec |
+| Summon | Starfall Sanctum altar + banner board | `Summon` RemoteFunction, `Banners`, `SummonService` | Code (`Screens/SummonScreen`) |
+| Trait Reroll | Workshop, Trait Well | traits on units (Phase 3) | Code (`Screens/TraitRerollScreen`) |
+| Units / Team | Workshop desk, Clockkeeper Oro | `SetTeam`, `GetProfile` | Code (`Screens/UnitsScreen`) |
+| Collection Book | Workshop desk tab, dock | `Profile.Discovered` | Code (`Screens/CollectionBookScreen`) |
 | Mode lobby | Gate Terrace gates | `PartyService`, `LobbyClient` (PR #3) | Spec (restyle of PR #3 window) |
-| Evolution | Workshop, Upgrade Forge | to build (Phase 3 remainder) | Spec |
-| NPC dialogue | every NPC | to build | Spec |
-| Results | match end | `WaveService` rewards | Spec |
+| Evolution | Workshop, Upgrade Forge | to build (Phase 3 remainder) | Code (`Screens/EvolutionScreen`), needs server endpoint |
+| NPC dialogue | every NPC | `UI/DialogueData` (client data) | Code (`Screens/DialogueScreen`) |
+| Results | match end | `WaveService` rewards | Code (`Screens/ResultsScreen`) |
 | Shops, Quests, Pass, Inventory, Ability manager, Crafting, Awakening, Trading, Dungeon board | their districts | to build | Outline |
 
 ---
@@ -34,7 +34,7 @@ PLAY opens a horizontal row of tall mode cards, one per `ModeLobbyConfig` mode: 
 
 ---
 
-## Summon (Spec — code next)
+## Summon (Code)
 
 **Identity:** a stage, not a form. The banner art fills the window; controls sit on top of it.
 
@@ -72,7 +72,7 @@ PLAY opens a horizontal row of tall mode cards, one per `ModeLobbyConfig` mode: 
 
 ---
 
-## Trait Reroll (Spec — code next)
+## Trait Reroll (Code)
 
 **Identity:** a ritual at the Trait Well. The selected unit stands on the left; the current trait "transforms" into the new one in the centre.
 
@@ -114,11 +114,11 @@ PLAY opens a horizontal row of tall mode cards, one per `ModeLobbyConfig` mode: 
 
 ---
 
-## Units / Team (Spec)
+## Units / Team (Code)
 
 **Identity:** a roster wall. Grid of unit cards (portrait, rarity frame, level, stars, element), six team slots pinned across the top; drag a card onto a slot (PC) or tap card → tap slot (touch). Detail drawer slides from the right with stats, abilities, trait, and buttons that jump to Trait Reroll / Evolution with that unit selected. Backend: `GetProfile`, `SetTeam`.
 
-## Collection Book (Spec)
+## Collection Book (Code)
 
 **Identity:** a bound book, not a grid dump. Pages per world/element, silhouettes for undiscovered units, discovered ones in colour with first-summon date; page footer shows completion % and the milestone reward track (Collection milestones, Phase 3 remainder). Backend: `Profile.Discovered`.
 
@@ -126,15 +126,15 @@ PLAY opens a horizontal row of tall mode cards, one per `ModeLobbyConfig` mode: 
 
 Keep PR #3's structure (browse parties / in party) and add identity: the chosen mode's colour on the header rule and gate card, the chapter's art as the settings column backdrop for Story, party slots as six tall portrait cards with READY states (green rule + check), Start as the only Primary button. Countdown uses Timer type in the header.
 
-## Evolution (Spec)
+## Evolution (Code)
 
 **Identity:** before → after. Two 3D previews side by side with an arrow of light between them; stat deltas listed in the middle (green up, red down); below, material slots with owned/needed counts (each slot links to where to get it: stage, shop, quest) and quest steps with progress bars; branching evolutions show path tabs. Evolve plays a transformation: silhouette flash, swap, Hero-type new name.
 
-## NPC dialogue (Spec)
+## NPC dialogue (Code)
 
 **Identity:** a visual-novel strip at the bottom third. Speaker nameplate in the NPC's district accent, portrait or a ViewportFrame bust on the left, text typed at 40 chars/s (tap completes the line, tap again advances), 2–4 choices as stacked buttons on the right. Choices can open systems (shop, quest board, lobby) through the same menu ids as stations. The camera eases toward the NPC while talking; the hub HUD hides.
 
-## Results (Spec)
+## Results (Code)
 
 Victory/defeat banner in Hero type (Positive/Danger rule), stars earned, rewards flipping in with rarity frames, per-player damage bar list for parties, then Replay / Return to Hub. Shown in `UiState = Results` over the combat scene.
 

@@ -140,3 +140,62 @@ If the live game has no trait reroll remote yet, it needs a server endpoint firs
 - [ ] Not enough gems: buttons dim and tapping says how many are missing.
 - [ ] Trait Reroll: unit strip filter cycles rarities; selecting a unit fills the left and current trait; reroll spins and lands on the server result; odds row flashes; lock toggles the cost.
 - [ ] Both at 844×390: readable, nothing off-screen.
+
+## More screens
+
+| Repo file | Create in Studio as | Menu id / hook |
+|---|---|---|
+| `src/ReplicatedStorage/TD/UI/DialogueData.luau` | ModuleScript `ReplicatedStorage.TD.UI.DialogueData` | — |
+| `src/StarterPlayerScripts/TD/Screens/DialogueScreen.luau` | `…TD.Screens.DialogueScreen` | `"Talk"` (NPC stations; HubClient passes the station id) |
+| `src/StarterPlayerScripts/TD/Screens/CollectionBookScreen.luau` | `…TD.Screens.CollectionBookScreen` | `"Collection"` |
+| `src/StarterPlayerScripts/TD/Screens/UnitsScreen.luau` | `…TD.Screens.UnitsScreen` | `"Team"` (replaces the old Team window when ready) |
+| `src/StarterPlayerScripts/TD/Screens/EvolutionScreen.luau` | `…TD.Screens.EvolutionScreen` | `"Evolution"` (Upgrade Forge station) |
+| `src/StarterPlayerScripts/TD/Screens/ResultsScreen.luau` | `…TD.Screens.ResultsScreen` | on match end (`UiState = Results`) |
+
+```lua
+local function openMenu(id) -- one router for stations, dock and dialogue choices
+	local open = menuHandlers[id]
+	if open then open() else UiKit.toast("Coming soon", "Info") end
+end
+
+DialogueScreen.init({ openMenu = openMenu, setHudVisible = HubHud.setVisible })
+HubClient.registerMenu("Talk", function(stationId) DialogueScreen.open(stationId) end)
+-- HubConfig: set Menu = "Talk" on the Guide, Clockkeeper and Merchant stations
+
+CollectionBookScreen.init({
+	getEntries = function() (every unit in Config.Units: { UnitId, Name, Rarity, Group = world or element, Discovered = profile.Discovered[id] == true }) end,
+	-- getMilestones / claimMilestone: add when the server has Collection milestones
+})
+
+UnitsScreen.init({
+	getUnits = function() (owned units + Stats = { { Label = "Damage", Value = "120" }, ... }, TraitName, TraitRarity, CanEvolve) end,
+	getTeam = function() return cachedProfile.Team (as uids) end,
+	setTeam = function(uids) (Remotes.SetTeam:FireServer(uids) or an InvokeServer that returns ok, err; then refresh cachedProfile) end,
+	openTraits = TraitRerollScreen.open,
+	openEvolution = EvolutionScreen.open,
+})
+
+EvolutionScreen.init({
+	getCandidates = function() (owned units whose Config entry has an evolution) end,
+	getPlan = function(uid) (paths with Into, stat deltas, materials Have/Need/Source, quest steps) end,
+	evolve = function(uid, pathId) (server endpoint: validate ownership + materials, consume, swap unit) end,
+})
+
+-- match end (client): from the server's results message
+ResultsScreen.show({
+	Won = won, Title = "Prologue · Stage 1 · Normal", Stars = stars, Waves = "Wave 10 / 10",
+	Rewards = { { Icon = "Gems", Label = "Gems", Amount = 50 }, { Icon = "Gold", Label = "Gold", Amount = 200 } },
+	Players = { { Name = "goo", Damage = 12345, IsLocal = true } },
+	CanReplay = true, AutoReturnIn = 10,
+}, { onReplay = function() Remotes.RequestReplay:FireServer() end, onReturn = function() Remotes.HubReturn:FireServer() end })
+```
+
+Server endpoints still missing for full function: trait reroll, evolution, collection milestones. The screens show "not connected" / disabled reasons until their backends exist, so nothing pretends to work.
+
+### Checklist (more screens)
+
+- [ ] Talk to Lumi, Oro, Nim: typing, tap/Space skips then advances, choices open Summon / Units / lobby; Esc closes; camera returns.
+- [ ] Collection: tabs per group, page arrows, silhouettes for undiscovered, detail popover, completion %.
+- [ ] Units: tap slot then unit (or unit then slot) equips; Unequip; full team shows the reason; Traits/Evolve jump with the unit selected.
+- [ ] Evolution: path tabs, materials red/green with source toast, Evolve disabled with the first missing requirement.
+- [ ] Results: Victory/Defeat banner, rewards flip in, damage list for parties, Replay/Return work, countdown.
