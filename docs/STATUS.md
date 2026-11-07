@@ -10,7 +10,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 
 | Repo file | Merged into the place as |
 |---|---|
-| `content/Units.lua` | `Config.Units` (20 pack units; 10 live, see below) |
+| `content/Units.lua` | `Config.Units` (20 pack units, all live; see below) |
 | `content/Enemies.lua` | `Config.Enemies` (map 2 enemies + 3 bosses) |
 | `content/Elements.lua` | `Config.ElementChart` + statuses Poison, Mark |
 | `content/Worlds/*.lua` | 4 Story worlds (enemies, stages, materials, rewards) |
