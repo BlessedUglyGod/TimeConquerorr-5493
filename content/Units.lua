@@ -225,7 +225,7 @@ Units.AkaneCrimsonwire = {
 	Name = "Akane Crimsonwire",
 	Rarity = "Epic",
 	Role = "DPS",
-	Description = "Ring of Fire: Spawns a burning ring on the path in range; enemies inside take 30 dps and get Burn.",
+	Description = "Ring of Fire: Spawns a burning ring on the path in range; enemies inside take 75 dps and get Burn.",
 	Cost = 180,
 	Attack = "Chain",
 	Element = "Fire",
@@ -238,7 +238,7 @@ Units.AkaneCrimsonwire = {
 		{ Cost = 135, Damage = 80, Range = 14, Cooldown = 0.95, ChainCount = 4, ChainFalloff = 0.85, OnHit = { Burn = { 20, 3 } } },
 		{ Cost = 220, Damage = 125, Range = 15, Cooldown = 0.9, ChainCount = 5, ChainFalloff = 0.9, OnHit = { Burn = { 30, 4 } } },
 	},
-	Ability = { Id = "RingOfFire", Name = "Ring of Fire", Cooldown = 45, UnlockLevel = 2, Dps = 75, Duration = 6, Radius = 10, Description = "Spawns a burning ring on the path in range; enemies inside take 30 dps and get Burn." },
+	Ability = { Id = "RingOfFire", Name = "Ring of Fire", Cooldown = 45, UnlockLevel = 2, Dps = 75, Duration = 6, Radius = 10, Description = "Spawns a burning ring on the path in range; enemies inside take 75 dps and get Burn." },
 	Look = "Chibi circus acrobat with crimson twin tails, black and red ringmaster jacket with gold buttons, a burning chain-whip coiled around one arm, smirk",
 }
 
@@ -288,7 +288,7 @@ Units.DaichiQuakeborn = {
 	Name = "Daichi Quakeborn",
 	Rarity = "Epic",
 	Role = "Splash",
-	Description = "Faultline: Cracks the path in front: 250 damage and 1.5 s stun in a line; un-burrows enemies.",
+	Description = "Faultline: Cracks the path in front: 625 damage and 1.5 s stun in a line; un-burrows enemies.",
 	Cost = 200,
 	Attack = "Splash",
 	Element = "Earth",
@@ -301,7 +301,7 @@ Units.DaichiQuakeborn = {
 		{ Cost = 145, Damage = 112, Range = 11, Cooldown = 1.9, Splash = 7.5, OnHit = { Stun = { 1, 0.7, Chance = 0.12 } } },
 		{ Cost = 220, Damage = 175, Range = 12, Cooldown = 1.8, Splash = 8, OnHit = { Stun = { 1, 0.8, Chance = 0.15 } } },
 	},
-	Ability = { Id = "Faultline", Name = "Faultline", Cooldown = 40, UnlockLevel = 3, Damage = 625, Length = 20, StunDuration = 1.5, Description = "Cracks the path in front: 250 damage and 1.5 s stun in a line; un-burrows enemies." },
+	Ability = { Id = "Faultline", Name = "Faultline", Cooldown = 40, UnlockLevel = 3, Damage = 625, Length = 20, StunDuration = 1.5, Description = "Cracks the path in front: 625 damage and 1.5 s stun in a line; un-burrows enemies." },
 	Look = "Huge-shouldered chibi monk with a shaved head and prayer beads of round boulders, earth-brown robes, stomping pose with cracks under the feet",
 }
 
@@ -331,7 +331,7 @@ Units.RyuAshenwing = {
 	Name = "Ryu Ashenwing",
 	Rarity = "Legendary",
 	Role = "AntiAir",
-	Description = "+75% damage to Flying enemies. Inferno Dive: Dives onto the strongest enemy in range: 600 damage in a 9-stud blast, grounds Flying enemies for 4 s.",
+	Description = "+75% damage to Flying enemies. Inferno Dive: Dives onto the strongest enemy in range: 1500 damage in a 9-stud blast, grounds Flying enemies for 4 s.",
 	Cost = 220,
 	Attack = "Splash",
 	Element = "Fire",
@@ -345,7 +345,7 @@ Units.RyuAshenwing = {
 		{ Cost = 220, Damage = 238, Range = 23, Cooldown = 1.2, Splash = 6, OnHit = { Burn = { 45, 4 } } },
 	},
 	Passive = { Id = "SkyHunter", FlyingBonus = 1.75, Description = "+75% damage to Flying enemies." },
-	Ability = { Id = "InfernoDive", Name = "Inferno Dive", Cooldown = 55, UnlockLevel = 2, Damage = 1500, Radius = 9, Description = "Dives onto the strongest enemy in range: 600 damage in a 9-stud blast, grounds Flying enemies for 4 s." },
+	Ability = { Id = "InfernoDive", Name = "Inferno Dive", Cooldown = 55, UnlockLevel = 2, Damage = 1500, Radius = 9, Description = "Dives onto the strongest enemy in range: 1500 damage in a 9-stud blast, grounds Flying enemies for 4 s." },
 	Look = "Chibi sky-rider with black hair streaked ember orange, aviator jacket with fur collar, mechanical wings of charred metal feathers glowing at the edges, flame lance",
 }
 
@@ -397,7 +397,7 @@ Units.AerisDawnbreaker = {
 	Name = "Aeris Dawnbreaker",
 	Rarity = "Mythic",
 	Role = "DPS",
-	Description = "Hits remove enemy Shield and Phased states. Daybreak: A beam along the whole path: 1200 damage to every enemy on it (bosses take 50%).",
+	Description = "Hits remove enemy Shield and Phased states. Daybreak: A beam along the whole path: 3000 damage to every enemy on it (bosses take 50%).",
 	Cost = 265,
 	Attack = "Pierce",
 	Element = "Light",
@@ -411,7 +411,7 @@ Units.AerisDawnbreaker = {
 		{ Cost = 300, Damage = 425, Range = 25, Cooldown = 1.1, PierceCount = 10 },
 	},
 	Passive = { Id = "Purify", Description = "Hits remove enemy Shield and Phased states." },
-	Ability = { Id = "Daybreak", Name = "Daybreak", Cooldown = 75, UnlockLevel = 2, Damage = 3000, Width = 5, Description = "A beam along the whole path: 1200 damage to every enemy on it (bosses take 50%)." },
+	Ability = { Id = "Daybreak", Name = "Daybreak", Cooldown = 75, UnlockLevel = 2, Damage = 3000, Width = 5, Description = "A beam along the whole path: 3000 damage to every enemy on it (bosses take 50%)." },
 	Look = "Radiant chibi paladin with short golden hair and a sunburst halo, white and sky-blue plate armor with feather motifs, a greatbow shaped like a rising sun firing beams",
 }
 

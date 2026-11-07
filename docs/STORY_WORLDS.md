@@ -68,3 +68,16 @@ The existing map 2 (Sunken Lantern Shrine) with its yokai-style roster (`content
 `SmokeCloud` (unit range multiplier in an area), `MaskSwap` (rotating element resistance), `SwordWave` (disables units on a line), `Reflect`, `Unbound` (boss form change), `ExplodeOnDeath` (disables nearby units), `StealMoneyOnLeak`, `CannonBarrage` (disables N units), `HealOnce`, `OpenGate` (spawns behind the core), `AshField` (unit cooldown multiplier). The others are shared with `content/Enemies.lua` (Phase, Blink, Burrow, DisableUnit, ShieldAura, HealAura, ChargeBelowHp, SummonEvery/Now, ShieldSelf, CleanseEvery, SplitOnDeath).
 
 Suggested build order: `Blink`, `Phase`, `Burrow`, `SummonEvery` and `DisableUnit` cover most of world 1–2. Leave the rest for when those worlds are scheduled.
+
+## Evolutions (`content/Evolutions.lua`)
+
+Each of the 16 live units has one evolution step paid with the materials of the Story world that fits its theme, plus Gold, a minimum level and minimum stars. `Evolutions.Paths` is `Config.Evolutions`. `Evolutions.build(Config.Units)` derives the evolved unit definitions from the live base units (damage ×1.35, range ×1.1, cooldown ×0.9, price ×1.15 by default, plus a themed on-hit bonus), so they follow the live schema and any later rebalance of the base. Evolved units reuse their base ability ids, so the server needs no new abilities.
+
+| World | Units → evolved |
+|---|---|
+| Ash Veil Valley | Kaito → Nightveil, Kaze → Galehawk, Tora → Stoneclaw, Hana → Briarshade |
+| Twilight Threshold | Yuki → Palemoon, Momo → Soulbell, Seren → Inkveil, Rin → Talismancer |
+| Saltfang Archipelago | Baron → Goldtide, Nami → Stormsail, Akane → Scarlet Corsair, Pip → Cannonwright |
+| Gatefall City | Ren → Gatebreaker, Mira → Cinderqueen, Jin → Runesmith, Gus → Crystalfist |
+
+Cost by base rarity: Common 10 Rare-material + 1 Epic-material + 2,000 Gold (Lv 20, 1★); Rare 15 + 2 + 5,000 (Lv 25, 2★); Epic 20 + 4 + 12,000 (Lv 30, 3★); Legendary 25 + 6 + 1 Legendary-material + 25,000 (Lv 40, 4★).
