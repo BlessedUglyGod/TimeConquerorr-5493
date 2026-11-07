@@ -207,8 +207,8 @@ Enemies.VeilwitchNoxra = {
 	Look = "Tall floating witch made of violet smoke, wide-brim hat with candle wax dripping, cracked porcelain mask, cloak of tattered paper talismans, many lantern spirits orbiting",
 }
 
-Enemies.HollowShogun = {
-	Name = "The Hollow Shogun",
+Enemies.HourlessShogun = {
+	Name = "The Hourless Shogun",
 	Health = 8400,
 	Speed = 3,
 	Reward = 400,

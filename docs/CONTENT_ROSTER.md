@@ -1,6 +1,6 @@
 # TD — Content roster v1 (units, enemies, bosses, map 2)
 
-Ready-to-integrate data for the Studio place. Everything is original: names, looks and abilities are not based on any existing franchise character.
+Ready-to-integrate data for the Studio place. Story Mode worlds and the world-consistency rule are in [STORY_WORLDS.md](STORY_WORLDS.md). Everything is original: names, looks and abilities are not based on any existing franchise character.
 
 | File | Goes to | Contents |
 |---|---|---|
@@ -67,7 +67,7 @@ Suggested banner placement: Commons/Rares/Epics into the standard pool; Valka + 
 
 - **Gravemaw, the Moss-Shell Tyrant** (Plated, 4480 HP). Summons a Shellback every 12 s. At 66% and 33% HP it hides in its shell for 5 s (takes 20% damage, stops); the live `Enrage` at 33% summons 3 Shellbacks. Counter: burst between shells, Armor Break/Mark.
 - **Noxra, the Veilwitch** (Ethereal, Flying, 3640 HP). Blinks 14 studs forward every 9 s, summons 3 Wisps every 10 s. Below 50% (live `Enrage`: ×1.2 speed, 3 Wisps) it disables 2 units at a time, below 20% it phases. Counter: anti-air + Light; Purify.
-- **The Hollow Shogun** (Armored, 8400 HP, final boss). Cleanses its debuffs every 10 s. At 70% summons 2 Iron Rhinos and gains a shield, at 40% summons Hex Lanterns and adds 10 s to your ability cooldowns every 12 s, at 15% the live `Enrage` gives ×1.6 speed and a Rhino, and it becomes immune to Execute.
+- **The Hourless Shogun** (Armored, 8400 HP, final boss). Cleanses its debuffs every 10 s. At 70% summons 2 Iron Rhinos and gains a shield, at 40% summons Hex Lanterns and adds 10 s to your ability cooldowns every 12 s, at 15% the live `Enrage` gives ×1.6 speed and a Rhino, and it becomes immune to Execute.
 
 ## Map 2 — Sunken Lantern Shrine
 
@@ -76,7 +76,7 @@ Flooded hilltop shrine at dusk: turquoise shallow water, moss steps, floating pa
 - **Two lanes**: north portal (lane A, a long loop around a pond) and west portal (lane B, short) merge at the torii bridge, then one shared tail to the core. Waves can send enemies down A, B or both, so players must split defenses before the merge or stack at it.
 - **Water zones**: two ponds where only `Placement = "Water"/"Any"` units (Sora for now) may stand. Gives water units a niche and a reason to collect them.
 - **Lantern pads**: three raised pads on the bridge with +10% range, one unit each.
-- **15 waves**, start money 350, bosses on wave 8 (Gravemaw), 12 (Noxra) and 15 (Hollow Shogun).
+- **15 waves**, start money 350, bosses on wave 8 (Gravemaw), 12 (Noxra) and 15 (Hourless Shogun).
 
 ## New code needed to support this content
 

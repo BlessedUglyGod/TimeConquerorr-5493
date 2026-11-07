@@ -48,7 +48,7 @@ Map.Waves = {
 	{ { "VeilwitchNoxra", 1, 0, Lane = "B" }, { "HexLantern", 2, 6, Lane = "A", Delay = 6 } }, -- 12
 	{ { "IronRhino", 5, 3, Lane = "Both" }, { "SplitterSlime", 8, 1, Lane = "Both", Delay = 3 }, { "Wisp", 12, 0.6, Lane = "Both", Delay = 6 } }, -- 13
 	{ { "ShieldDrummer", 4, 3, Lane = "Both" }, { "TotemBearer", 4, 3, Lane = "Both", Delay = 1 }, { "IronRhino", 4, 3, Lane = "Both", Delay = 4 }, { "HexLantern", 4, 3, Lane = "Both", Delay = 8 } }, -- 14
-	{ { "HollowShogun", 1, 0, Lane = "A" }, { "Shellback", 4, 4, Lane = "B", Delay = 4 }, { "SkitterMoth", 12, 0.8, Lane = "Both", Delay = 10 } }, -- 15
+	{ { "HourlessShogun", 1, 0, Lane = "A" }, { "Shellback", 4, 4, Lane = "B", Delay = 4 }, { "SkitterMoth", 12, 0.8, Lane = "Both", Delay = 10 } }, -- 15
 }
 
 return Map
