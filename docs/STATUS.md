@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 21:45 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-07 21:55 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -51,6 +51,7 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **Per-player match wallets:** each player starts with $300 and spends only their own money. Kill and wave rewards go to each player's wallet. Income and sell refunds (70%) go to the unit's owner only, and nobody can upgrade or sell another player's unit.
 - **Placement limits:** 10 units per player overall plus a per-unit limit, both per player. The unit button shows "3/4 placed", and an over-limit placement is rejected with "Limit reached: Ren Voltblade 4/4".
 - **UltraRare profile:** no stars, full power from the first copy, duplicates give +500 Mastery XP, Star Up is hidden and the units screen shows "Full power" plus the mastery level. No ultra-rare unit is live yet, so this is untested in combat.
+- **Quests, Gold shop and materials inventory:** live with functional placeholder UI (`ServerScriptService.TD.Services.MetaService`). Daily quests reset at 00:00 UTC. The shop sells for Gold only, with no real money.
 - **Summons** with pity and the x10 guarantee, plus the profile with team, levels, stars and traits.
 
 ## Open items / not verified
@@ -177,6 +178,17 @@ Enemy models go in `ServerStorage.TDEnemyModels/<id>`, front facing −Z. Their 
 - Elite: `OgreChieftain`, `MimicChest`.
 - Miniboss: `RedGateWarden`. Boss: `AshenSovereign`.
 
+### Quests, Gold shop, inventory (MetaService)
+- **Data:** `Config.DailyQuests` (6, reset at 00:00 UTC), `Config.StoryQuests` (8 one-time quests: world bosses, evolve 1 and 3 units, first awakening) and `Config.GoldShop` (9 items with daily limits, Gold only).
+- **Server:** `ServerScriptService.TD.Services.MetaService`
+  - `GetMeta()` → `{ Daily = {{ Id, Text, Progress, Goal, Claimed, Reward = { Gems?, Gold?, TraitRerolls? } }}, Story = (same shape), Shop = {{ Id, Name, Price, Bought, Limit }}, Materials = {{ Id, Name, Rarity, Count }}, ResetsIn = seconds }`
+  - `ClaimQuest(questId)` → `ok, msg`
+  - `BuyItem(itemId)` → `ok, msg`
+  - Gold, Gems and TraitRerolls update through player attributes.
+- **Current UI (placeholder, free to replace):** `StarterPlayerScripts.TD.Screens.MetaScreens` with `openQuests()` and `openShop()`. The shop screen also lists "Your materials".
+  - It is registered under the `HubHud` dock ids `Quests` and `ShopGold` and the `HubClient` menus `Quests` and `ShopGold`.
+  - The merchant NPC **Nim** has its station enabled; the dialogue option "Show me your wares" opens `ShopGold`.
+
 ### Open tasks for Astra
 - [ ] **First:** a model for `Kaze` in `ReplicatedStorage.TD.UnitModels/Kaze` plus its inventory card. Follow the live contract above: one Model, front facing −Z, pivot at the centre, optional `Muzzle` at the bow. The card reads `Config.Units.Kaze` and `GetProfile().Progress.Kaze`.
 - [ ] Models for the 10 second-batch units: `Sora`, `Lumi`, `Haru`, `Daichi`, `Valka`, `Ryu`, `Ozu`, `Kurenai`, `Aeris`, `Tokiya`. Their look prompts are in `TD.ContentPack2` (and in `content/Units.lua` → `Look`).
@@ -184,6 +196,7 @@ Enemy models go in `ServerStorage.TDEnemyModels/<id>`, front facing −Z. Their 
 - [ ] Saltfang Archipelago: a decor pass on `Workspace.SaltfangArchipelago` (tropical islands, docks, shipwrecks, navy fort) and models for its 9 enemies.
 - [ ] Gatefall City: a decor pass on `Workspace.GatefallCity` (night city, neon, Gate portals) and models for its 9 enemies.
 - [ ] Replace the placeholder CombatFx bursts and rings for world mechanics (SwordWave, Reflect, CannonBarrage, ExplodeOnDeath, AshField, OpenGate) with proper effects. This is visual only; keep the server calls as they are.
+- [ ] Purpose-built **Quest Board** and **Lantern Market** screens using the MetaService remotes above. Either keep calling the same remotes as `MetaScreens`, or replace that module and keep the registration ids `Quests` and `ShopGold`.
 - [ ] Models for the 16 evolved units (prompts: the `Look` fields in `content/Evolutions.lua`). Until a model exists, the base unit's model is used.
 
 ## Rules for any contributor
