@@ -134,9 +134,9 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 | Ability | `Ability` (Name, Cooldown, Description) | `UseAbility(model)` | the effect plus the cooldown end time (server time) |
 | Target mode | — | `SetTargetMode(model, mode)` | the mode is stored on the unit |
 | Match wallet | player attribute `MatchMoney` | — | kill and wave rewards go to each player; income and sell refunds go to the unit's owner |
-| Summon | `Banners`, `GetProfile().Pity` | `Summon(bannerId, 1|10)` | `ok, { Results, Pity, PityAt }` |
+| Summon | `Banners`, `GetProfile().Pity` | `Summon(bannerId, 1 or 10)` | `ok, { Results, Pity, PityAt }` |
 | Team | `GetProfile().Units`, `Team` | `SetTeamSync({ unitIds })` | `ok, why` |
-| Level / Stars / Trait | `GetProfile().Progress[unitId]` | `Progress("LevelUp"|"StarUp"|"RollTrait", unitId)`, `TraitReroll(unitId, 1|10)` | `ok, msg` / `ok, { Trait, Rolls }` |
+| Level / Stars / Trait | `GetProfile().Progress[unitId]` | `Progress("LevelUp" / "StarUp" / "RollTrait", unitId)`, `TraitReroll(unitId, 1 or 10)` | `ok, msg` / `ok, { Trait, Rolls }` |
 | Match end | — | `RequestReplay`, `HubReturn` | `MatchResult` event with rewards and `CanReplay` |
 | Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), `GetProfile().Materials` | `Evolve(unitId, pathId)` | `ok, msg`; the new unit keeps level and trait |
 | UltraRare | profile id "UltraRare", `Progress[unitId].MasteryXp` | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
