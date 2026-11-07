@@ -45,7 +45,7 @@ World.Enemies = {
 	ChainEnforcer = {
 		World = "AshVeilValley", Tier = "Elite",
 		Name = "Iron-Chain Enforcer", Health = 420, Speed = 4.5, Reward = 15, Damage = 3, Size = 3.5,
-		Color = Color3.fromRGB(90, 90, 100), Shape = "Cylinder", Armor = "Armored", CCResist = 0.3,
+		Color = Color3.fromRGB(90, 90, 100), Shape = "Block", Armor = "Armored", CCResist = 0.3,
 		Mechanics = { { Id = "SummonEvery", Every = 10, Spawn = "PaperDecoy", Count = 2 } },
 		Look = "Heavy ninja in lacquered plates with a long weighted chain wrapped around the shoulders, crow mask with iron studs",
 	},
@@ -60,7 +60,7 @@ World.Enemies = {
 	TwinFangs = {
 		World = "AshVeilValley", Tier = "Miniboss", Boss = true,
 		Name = "The Twin Fangs", Health = 2200, Speed = 5, Reward = 120, Damage = 10, Size = 5,
-		Color = Color3.fromRGB(160, 40, 40), Shape = "Cylinder", Armor = "Swift", CCResist = 0.5,
+		Color = Color3.fromRGB(160, 40, 40), Shape = "Block", Armor = "Swift", CCResist = 0.5,
 		Enrage = { AtHealth = 0.5, SpeedMul = 1.4, Summon = "CrowRunner", SummonCount = 4 },
 		Mechanics = { { Id = "SplitOnDeath", Spawn = "CrowRunner", Count = 4 } },
 		Look = "Two brothers fighting back to back as one model, one with a red fang mask and a ninjato, the other with a white fang mask and a kusarigama",
@@ -69,7 +69,7 @@ World.Enemies = {
 	KageroNinefold = {
 		World = "AshVeilValley", Tier = "Boss", Boss = true,
 		Name = "Kagero of the Ninefold Mask", Health = 4800, Speed = 3.5, Reward = 300, Damage = 20, Size = 7,
-		Color = Color3.fromRGB(30, 25, 30), Shape = "Cylinder", Armor = "Armored", CCResist = 0.6,
+		Color = Color3.fromRGB(30, 25, 30), Shape = "Block", Armor = "Armored", CCResist = 0.6,
 		Enrage = { AtHealth = 0.33, SpeedMul = 1.3, Summon = "ChainEnforcer", SummonCount = 2 },
 		Mechanics = {
 			{ Id = "MaskSwap", Every = 12, Elements = { "Fire", "Lightning", "Wind" }, ResistMul = 0.5 }, -- resists one element at a time, shown on the boss bar

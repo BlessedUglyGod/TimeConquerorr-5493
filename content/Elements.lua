@@ -26,17 +26,12 @@ Elements.ElementChart = {
 	Arcane = {}, -- neutral against everything
 }
 
--- New statuses, same fields as the live ones.
+-- New statuses, same fields as the live ones. (Freeze is not implemented live; units use Stun instead.)
 Elements.Statuses = {
 	Poison = {
 		Name = "Poison", Kind = "DoT", Stacking = "Strongest", TickInterval = 0.5,
 		Tint = Color3.fromRGB(150, 220, 70),
 		-- strength = damage per second (on the live HP scale)
-	},
-	Freeze = {
-		Name = "Freeze", Kind = "Stop", Stacking = "Refresh", CC = true, BossImmunityAfter = 2,
-		Tint = Color3.fromRGB(150, 210, 255),
-		-- like Stun with an ice tint; design note: next hit on a frozen enemy +25% (optional)
 	},
 	Mark = {
 		Name = "Mark", Kind = "DamageTakenMul", Stacking = "Strongest",

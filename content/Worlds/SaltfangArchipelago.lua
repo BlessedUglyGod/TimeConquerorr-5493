@@ -30,7 +30,7 @@ World.Enemies = {
 	GrappleRaider = {
 		World = "SaltfangArchipelago", Tier = "Regular",
 		Name = "Grapple Raider", Health = 180, Speed = 6, Reward = 5, Damage = 2, Size = 2.5,
-		Color = Color3.fromRGB(120, 40, 40), Shape = "Cylinder", Armor = "Swift", CCResist = 0,
+		Color = Color3.fromRGB(120, 40, 40), Shape = "Block", Armor = "Swift", CCResist = 0,
 		Mechanics = { { Id = "Blink", Every = 8, Distance = 10 } }, -- grapple hook leap forward
 		Look = "Lanky pirate with a grappling hook and a cutlass, red long coat and an eyepatch",
 	},
@@ -45,14 +45,14 @@ World.Enemies = {
 	NavyRifleman = {
 		World = "SaltfangArchipelago", Tier = "Regular",
 		Name = "Iron Tide Rifleman", Health = 260, Speed = 5, Reward = 6, Damage = 2, Size = 2.5,
-		Color = Color3.fromRGB(230, 230, 235), Shape = "Cylinder", Armor = "Armored", CCResist = 0.1,
+		Color = Color3.fromRGB(230, 230, 235), Shape = "Block", Armor = "Armored", CCResist = 0.1,
 		Look = "Navy soldier in a white uniform with grey steel breastplate, tall cap and a long rifle",
 	},
 	-- Elite
 	NavyLieutenant = {
 		World = "SaltfangArchipelago", Tier = "Elite",
 		Name = "Iron Tide Lieutenant", Health = 800, Speed = 4.5, Reward = 22, Damage = 3, Size = 3.5,
-		Color = Color3.fromRGB(200, 205, 215), Shape = "Cylinder", Armor = "Plated", CCResist = 0.4,
+		Color = Color3.fromRGB(200, 205, 215), Shape = "Block", Armor = "Plated", CCResist = 0.4,
 		Mechanics = { { Id = "ShieldAura", Every = 6, Radius = 12, ShieldPctOfMaxHp = 0.2 } },
 		Look = "Strict navy officer with a heavy tower shield shaped like an anchor and a sabre, long coat",
 	},
@@ -76,7 +76,7 @@ World.Enemies = {
 	CaptainRedmaw = {
 		World = "SaltfangArchipelago", Tier = "Boss", Boss = true,
 		Name = "Captain Redmaw Saltfang", Health = 8000, Speed = 3, Reward = 450, Damage = 30, Size = 8,
-		Color = Color3.fromRGB(150, 30, 30), Shape = "Cylinder", Armor = "Armored", CCResist = 0.7,
+		Color = Color3.fromRGB(150, 30, 30), Shape = "Block", Armor = "Armored", CCResist = 0.7,
 		Enrage = { AtHealth = 0.3, SpeedMul = 1.4, Summon = "GrappleRaider", SummonCount = 4 },
 		Mechanics = {
 			{ Id = "CannonBarrage", Every = 10, Targets = 3, DisableDuration = 2 },

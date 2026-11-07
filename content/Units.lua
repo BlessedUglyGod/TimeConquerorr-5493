@@ -246,7 +246,7 @@ Units.HaruGlacierheart = {
 	Name = "Haru Glacierheart",
 	Rarity = "Epic",
 	Role = "Control",
-	Description = "Permafrost: Freezes every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once).",
+	Description = "Permafrost: Stuns every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once).",
 	Cost = 190,
 	Attack = "Pulse",
 	Element = "Ice",
@@ -257,9 +257,9 @@ Units.HaruGlacierheart = {
 	Levels = {
 		{ Damage = 30, Range = 11, Cooldown = 1.6, OnHit = { Slow = { 0.7, 2 } } },
 		{ Cost = 145, Damage = 50, Range = 12, Cooldown = 1.5, OnHit = { Slow = { 0.65, 2 } } },
-		{ Cost = 220, Damage = 80, Range = 13, Cooldown = 1.4, OnHit = { Slow = { 0.6, 2.5 }, Freeze = { 1, 1.2, Chance = 0.1 } } },
+		{ Cost = 220, Damage = 80, Range = 13, Cooldown = 1.4, OnHit = { Slow = { 0.6, 2.5 }, Stun = { 1, 1.2, Chance = 0.1 } } },
 	},
-	Ability = { Id = "Permafrost", Name = "Permafrost", Cooldown = 50, UnlockLevel = 2, BossDuration = 0.8, Duration = 2.5, Description = "Freezes every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once)." },
+	Ability = { Id = "Permafrost", Name = "Permafrost", Cooldown = 50, UnlockLevel = 2, BossDuration = 0.8, Duration = 2.5, Description = "Stuns every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once)." },
 	Look = "Calm chibi swordsman with frosty white hair tied low, pale blue haori with snowflake crest, a katana made of translucent ice resting on the shoulder, breath visible",
 }
 
@@ -420,7 +420,7 @@ Units.TokiyaClockveil = {
 	Name = "Tokiya Clockveil",
 	Rarity = "Exclusive",
 	Role = "Control",
-	Description = "All your units' ability cooldowns are 10% shorter. Time Stop: Freezes every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path.",
+	Description = "All your units' ability cooldowns are 10% shorter. Time Stop: Stuns every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path.",
 	Cost = 280,
 	Attack = "Splash",
 	Element = "Arcane",
@@ -434,7 +434,7 @@ Units.TokiyaClockveil = {
 		{ Cost = 300, Damage = 325, Range = 18, Cooldown = 1, Splash = 7, OnHit = { Slow = { 0.7, 2.5 } } },
 	},
 	Passive = { Id = "BorrowedTime", CooldownMult = 0.9, Description = "All your units' ability cooldowns are 10% shorter." },
-	Ability = { Id = "TimeStop", Name = "Time Stop", Cooldown = 90, UnlockLevel = 2, BossDuration = 1, Duration = 3, Rewind = 8, Description = "Freezes every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path." },
+	Ability = { Id = "TimeStop", Name = "Time Stop", Cooldown = 90, UnlockLevel = 2, BossDuration = 1, Duration = 3, Rewind = 8, Description = "Stuns every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path." },
 	Look = "Mysterious chibi time-keeper with silver hair and one clock-face eye, long dark-teal coat with brass gears, a floating pocket-watch shield and an hourglass staff with sand flowing upward",
 }
 

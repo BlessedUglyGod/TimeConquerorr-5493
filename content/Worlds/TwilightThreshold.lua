@@ -23,14 +23,14 @@ World.Enemies = {
 	MaskedRevenant = {
 		World = "TwilightThreshold", Tier = "Regular",
 		Name = "Masked Revenant", Health = 140, Speed = 6, Reward = 4, Damage = 1, Size = 2.5,
-		Color = Color3.fromRGB(60, 60, 80), Shape = "Cylinder", Armor = "Flesh", CCResist = 0,
+		Color = Color3.fromRGB(60, 60, 80), Shape = "Block", Armor = "Flesh", CCResist = 0,
 		Mechanics = { { Id = "Phase", Every = 6, Duration = 1 } },
 		Look = "Gaunt spirit in a tattered funeral robe wearing a cracked bone mask, glowing blue chest hole",
 	},
 	CorruptedRonin = {
 		World = "TwilightThreshold", Tier = "Regular",
 		Name = "Corrupted Ronin", Health = 200, Speed = 5.5, Reward = 5, Damage = 2, Size = 2.5,
-		Color = Color3.fromRGB(40, 30, 50), Shape = "Cylinder", Armor = "Armored", CCResist = 0.1,
+		Color = Color3.fromRGB(40, 30, 50), Shape = "Block", Armor = "Armored", CCResist = 0.1,
 		Mechanics = { { Id = "ChargeBelowHp", HpPct = 0.4, SpeedMult = 1.6, Duration = 3 } },
 		Look = "Ghostly swordsman in torn black hakama, black ink seeping from the eyes, katana wrapped in chains",
 	},
@@ -44,14 +44,14 @@ World.Enemies = {
 	ChainboundWarden = {
 		World = "TwilightThreshold", Tier = "Elite",
 		Name = "Chainbound Warden", Health = 600, Speed = 4, Reward = 18, Damage = 3, Size = 4,
-		Color = Color3.fromRGB(110, 120, 140), Shape = "Cylinder", Armor = "Plated", CCResist = 0.4,
+		Color = Color3.fromRGB(110, 120, 140), Shape = "Block", Armor = "Plated", CCResist = 0.4,
 		Mechanics = { { Id = "ShieldAura", Every = 7, Radius = 10, ShieldPctOfMaxHp = 0.2 } },
 		Look = "Huge armoured spirit jailer wrapped in glowing chains, a lantern for a head, carrying a giant key",
 	},
 	BladeWraithCaptain = {
 		World = "TwilightThreshold", Tier = "Elite",
 		Name = "Blade-Wraith Captain", Health = 480, Speed = 6, Reward = 18, Damage = 3, Size = 3,
-		Color = Color3.fromRGB(70, 40, 90), Shape = "Cylinder", Armor = "Ethereal", CCResist = 0.3,
+		Color = Color3.fromRGB(70, 40, 90), Shape = "Block", Armor = "Ethereal", CCResist = 0.3,
 		Mechanics = { { Id = "SwordWave", Every = 9, Length = 18, DisableDuration = 1.5 } }, -- disables units along a line ahead of it
 		Look = "Spectral swordsman captain in a long violet coat with a ragged captain's sash, sword trailing ink-black flame",
 	},
@@ -59,7 +59,7 @@ World.Enemies = {
 	SeveredJudge = {
 		World = "TwilightThreshold", Tier = "Miniboss", Boss = true,
 		Name = "The Severed Judge", Health = 3000, Speed = 3.5, Reward = 160, Damage = 12, Size = 6,
-		Color = Color3.fromRGB(220, 220, 230), Shape = "Cylinder", Armor = "Plated", CCResist = 0.6,
+		Color = Color3.fromRGB(220, 220, 230), Shape = "Block", Armor = "Plated", CCResist = 0.6,
 		Enrage = { AtHealth = 0.5, SpeedMul = 1.2, Summon = "MaskedRevenant", SummonCount = 4 },
 		Mechanics = { { Id = "Reflect", Every = 10, Duration = 2, DisableAttackers = 1 } }, -- units that hit it during Reflect are disabled 1 s
 		Look = "Headless spirit magistrate in white court robes, holding its own masked head in one hand and a scale of chains in the other",
@@ -68,7 +68,7 @@ World.Enemies = {
 	YomikageFerryman = {
 		World = "TwilightThreshold", Tier = "Boss", Boss = true,
 		Name = "Yomikage, the Fallen Ferryman", Health = 6200, Speed = 3, Reward = 380, Damage = 25, Size = 8,
-		Color = Color3.fromRGB(20, 30, 50), Shape = "Cylinder", Armor = "Ethereal", CCResist = 0.7,
+		Color = Color3.fromRGB(20, 30, 50), Shape = "Block", Armor = "Ethereal", CCResist = 0.7,
 		Enrage = { AtHealth = 0.25, SpeedMul = 1.5, Summon = "BladeWraithCaptain", SummonCount = 2 },
 		Mechanics = {
 			{ Id = "SwordWave", Every = 8, Length = 24, DisableDuration = 2 },

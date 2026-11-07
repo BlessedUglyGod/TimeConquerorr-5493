@@ -50,7 +50,7 @@ World.Enemies = {
 	OgreChieftain = {
 		World = "GatefallCity", Tier = "Elite",
 		Name = "Gate Ogre Chieftain", Health = 1400, Speed = 4, Reward = 28, Damage = 4, Size = 5,
-		Color = Color3.fromRGB(140, 90, 60), Shape = "Cylinder", Armor = "Armored", CCResist = 0.5,
+		Color = Color3.fromRGB(140, 90, 60), Shape = "Block", Armor = "Armored", CCResist = 0.5,
 		Mechanics = { { Id = "HealAura", Every = 4, Radius = 10, HealPct = 0.05 }, { Id = "ChargeBelowHp", HpPct = 0.4, SpeedMult = 1.8, Duration = 3 } },
 		Look = "Huge ogre with a bone crown and a totem club, war paint, a goblin riding on its shoulder",
 	},
@@ -65,7 +65,7 @@ World.Enemies = {
 	RedGateWarden = {
 		World = "GatefallCity", Tier = "Miniboss", Boss = true,
 		Name = "Warden of the Red Gate", Health = 5500, Speed = 3, Reward = 250, Damage = 20, Size = 7,
-		Color = Color3.fromRGB(150, 30, 30), Shape = "Cylinder", Armor = "Plated", CCResist = 0.6,
+		Color = Color3.fromRGB(150, 30, 30), Shape = "Block", Armor = "Plated", CCResist = 0.6,
 		Enrage = { AtHealth = 0.4, SpeedMul = 1.3, Summon = "RuneGolem", SummonCount = 3 },
 		Mechanics = { { Id = "ShieldSelf", Every = 15, ShieldPctOfMaxHp = 0.1 }, { Id = "SummonEvery", Every = 12, Spawn = "GateGoblin", Count = 4 } },
 		Look = "Armoured knight-statue with a red Gate portal glowing in its chest, a tower shield of black stone and a halberd",
@@ -74,7 +74,7 @@ World.Enemies = {
 	AshenSovereign = {
 		World = "GatefallCity", Tier = "Boss", Boss = true,
 		Name = "Morrag, the Ashen Sovereign", Health = 10000, Speed = 2.8, Reward = 550, Damage = 40, Size = 9,
-		Color = Color3.fromRGB(50, 40, 40), Shape = "Cylinder", Armor = "Armored", CCResist = 0.8,
+		Color = Color3.fromRGB(50, 40, 40), Shape = "Block", Armor = "Armored", CCResist = 0.8,
 		Enrage = { AtHealth = 0.2, SpeedMul = 1.5, Summon = "OgreChieftain", SummonCount = 1 },
 		Mechanics = {
 			{ Id = "SummonEvery", Every = 10, Spawn = "ShadeHound", Count = 3 },

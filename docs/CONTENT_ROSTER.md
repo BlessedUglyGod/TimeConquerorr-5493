@@ -6,14 +6,14 @@ Ready-to-integrate data for the Studio place. Story Mode worlds and the world-co
 |---|---|---|
 | `content/Units.lua` | `Config.Units` | 20 units |
 | `content/Enemies.lua` | `Config.Enemies` | 10 enemies + 3 bosses (`Boss = true`) |
-| `content/Elements.lua` | `Config.ElementChart` + statuses | 7 new elements, 2 new armor types, 3 new statuses (Poison, Freeze, Mark) |
+| `content/Elements.lua` | `Config.ElementChart` + statuses | 7 new elements, 2 new armor types, 2 new statuses (Poison, Mark) |
 | `content/Maps/SunkenLanternShrine.lua` | new map module | map 2: two lanes, water zones, pads, 15 waves |
 
 **Schema (v2)** matches the live `ReplicatedStorage.TD.Config` so merging is a loop of `Config.Units[id] = def`:
 
 - Units: `Name, Rarity, Role, Description, Cost, Attack, Element, Color, Hair, Levels, Ability`. `Levels[1]` has no `Cost`; `Levels[2..3].Cost` is the upgrade price. `Splash` is the splash radius. `OnHit = { StatusId = { strength, duration, Chance = p? } }`.
 - Conventions: Slow strength is the speed multiplier (0.7 = 30% slower), ArmorBreak/Mark are damage-taken multipliers (1.2 = +20%), Burn/Poison strength is damage per second.
-- Enemies: `Name, Health, Speed, Reward, Damage, Size, Color, Shape, Armor, CCResist, Boss, Enrage = { AtHealth, SpeedMul, Summon, SummonCount }`.
+- Enemies: `Name, Health, Speed, Reward, Damage, Size (number), Color, Shape ("Ball" or "Block"), Armor, CCResist, Boss, Enrage = { AtHealth, SpeedMul, Summon, SummonCount }`.
 - Waves: `{ enemyId, count, interval }` plus optional `Lane` and `Delay` for map 2.
 - Extra fields the live server ignores until implemented: `Attack = "Chain"/"Pierce"` with `ChainCount/ChainFalloff/PierceCount`, OnHit `Chance`, `CanHitAir`, `Placement`, `Passive`, `Aura`, `Ability.UnlockLevel`, enemy `Flying`, `Mechanics`, `Phases`, `Title`, `Counter`, and `Look` (model prompt).
 
@@ -34,7 +34,7 @@ Ready-to-integrate data for the Studio place. Story Mode worlds and the world-co
 | Jin Ironbloom | Rare | Earth | AntiArmor | Armor Break up to 30% |
 | Nami Gale | Rare | Wind | DPS | Chain arrows 2→4 targets |
 | Akane Crimsonwire | Epic | Fire | DPS | Burning chain whip; **Ring of Fire** |
-| Haru Glacierheart | Epic | Ice | Control | Slow pulse, Freeze chance; **Permafrost** |
+| Haru Glacierheart | Epic | Ice | Control | Slow pulse, Stun chance at Lv3; **Permafrost** |
 | Seren Moonquill | Epic | Arcane | Support | Mark (+20% damage taken) spread across the wave |
 | Daichi Quakeborn | Epic | Earth | Splash | Big splash, stun chance; **Faultline** |
 | Valka Stormcrown | Legendary | Lightning | DPS | Chain 4→6; **Thunderthrone** |
@@ -82,7 +82,7 @@ Flooded hilltop shrine at dusk: turquoise shallow water, moss steps, floating pa
 
 1. Attack types `Chain` (ChainCount, ChainFalloff) and `Pierce` (PierceCount); `Attack = "None"` for pure supports.
 2. `CanHitAir` targeting filter + `Flying` enemies + `Grounded` status.
-3. Statuses Poison, Freeze, Mark (defined in `Elements.lua`); enemy states Shield, Phased, Burrowed, Grounded.
+3. Statuses Poison, Mark (defined in `Elements.lua`); enemy states Shield, Phased, Burrowed, Grounded.
 4. Enemy mechanic handlers keyed by `Mechanics[i].Id`: Phase, SplitOnDeath, HealAura, ShieldAura, Burrow, DisableUnit, ChargeBelowHp, SummonEvery/SummonNow, Blink, ShellUp, ShieldSelf, CleanseEvery, StealTime, Enrage. Boss `Phases` trigger once when Health drops below `AtHealth`; the live `Enrage` already covers one threshold per boss.
 5. Unit passives keyed by `Passive.Id` and auras (`Aura` on levels), plus the 13 abilities listed above.
 6. Multi-lane waypoints and water-zone placement rule in `canPlaceAt` for map 2.
