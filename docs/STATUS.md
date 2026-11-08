@@ -223,3 +223,10 @@ Rules:
 - The match logic never depends on the hub, and everything a match needs comes from `MatchContext`.
 - No Prestige, no PvP, no real-money products without the owner's approval.
 - Code and docs are in English; reports to the owner are in Russian.
+
+### Astra · November 7 · Inventory and hub HUD
+- Team Edit in the Story lobby routes to the portrait inventory. The private lobby is suspended while editing and refreshes its party snapshot on return. Verified by creating a private party and clicking Edit and Close in Studio Play.
+- Added the client-only Star Advancement view inside Units. It shows the unit portrait, current/next stars, three multiplier comparisons, spare non-shiny copies and the actual price (no Gold). It uses the existing StarUp action and hides the entry for units without star upgrades.
+- Owned-unit cards now display Damage, Range and Cooldown rank badges. Reroll Grades continues to use the configured Gold price and existing server action.
+- Hub HUD team slots now reuse inventory 3D previews, including base-model fallback for evolved units. Six slots share the available width. Checked equipped/empty slots and switching units using isolated Studio UI tests.
+- The 14 original native-part unit models are **prototypes for review**. A final art pass should follow content/Archetypes.lua. The active Studio place is the authoritative source for these changes.
