@@ -3,12 +3,14 @@
 --
 -- 1) PLACEMENT LIMITS (per player, both enforced at the same time by the server):
 --    * Limits.PerPlayerTotal          : all units one player may have placed at once
+--                                       (math.huge = no overall cap; live since 2026-11-08)
 --    * unit.PlacementLimit            : copies of THIS unit one player may have placed at once
 --      (set in content/Units.lua for pack units, in Limits.ById below for the original 6,
 --       evolved units inherit their base's value through Evolutions.build)
 --    * Limits.Modes[mode]             : optional per-mode overrides (nil = use the defaults)
 --    Progression.placementLimit(unitId, def) is the single lookup the server and the UI use.
---    UI text: "2/3 placed"; when blocked: "Limit reached: Ozu Goldleaf 3/3" or "Unit limit 10/10".
+--    UI text: "2/3 placed"; when blocked: "Limit reached: Ozu Goldleaf 3/3", or in a capped
+--    mode such as Challenge: "Unit limit 6/6".
 --
 -- 2) PROGRESSION PROFILES: which rules a unit follows.
 --    * Standard  : stars 1..5 from duplicate copies (current system).
@@ -26,7 +28,7 @@ local Progression = {}
 
 ---------------------------------------------------------------- placement limits
 Progression.Limits = {
-	PerPlayerTotal = 10, -- matches the live per-player unit limit
+	PerPlayerTotal = math.huge, -- no overall cap (live); only per-unit limits and mode caps apply
 	-- Fallback when a unit has no PlacementLimit: by Role, then by rarity.
 	ByRole = { Economy = 3, Support = 3 },
 	ByRarity = { Common = 6, Rare = 4, Epic = 3, Legendary = 2, Mythic = 2, Secret = 1, Exclusive = 1 },
@@ -43,8 +45,8 @@ Progression.Limits = {
 	},
 	-- Optional per-mode overrides, e.g. a challenge that allows only one copy of everything.
 	Modes = {
-		-- Infinite = { PerPlayerTotal = 12 },
-		-- Challenge_Solo = { PerPlayerTotal = 6, PerUnitMax = 2 },
+		Challenge = { PerPlayerTotal = 6 }, -- live challenge cap (daily and weekly challenges)
+		-- Example: SomeMode = { PerPlayerTotal = 8, PerUnitMax = 2 },
 	},
 }
 
