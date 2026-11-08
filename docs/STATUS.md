@@ -1,6 +1,6 @@
 # TD — Project status (for an external assistant)
 
-_Last updated: 2026-11-07 22:10 UTC. Keep this file current when anything below changes._
+_Last updated: 2026-11-08 02:50 UTC. Keep this file current when anything below changes._
 
 Original anime-inspired tower defense for Roblox, place **TD** (placeId 116509641758969). All characters, names and assets are original; nothing may copy an existing franchise.
 
@@ -46,13 +46,45 @@ Original anime-inspired tower defense for Roblox, place **TD** (placeId 11650964
 - **Story world 2, Twilight Threshold:** live as a functional greybox. Its enemies, materials and the mechanics SwordWave, Reflect, Unbound (armor switch) and ShieldSelf run server-side; their visuals are simple CombatFx beams and rings for now.
 - **Story world 1, Ash Veil Valley:** map plus stages that unlock in order. Trying to start a locked stage is rejected, and the lobby marks locked stages in red.
 - **Hub "Meridian Isle":** Story portal queue for 1–6 players, return to hub, stations, and 3D NPCs Luma and Oro with dialogue.
-- **New UI** (one design system): hub HUD with PLAY and a mode board, Summon, Trait Reroll x1/x10, Collection Book, Units (team of 6, Level Up, Star Up), Evolution, Match Results, NPC dialogue and unified toasts. The combat HUD is separate from the hub HUD.
+- **New UI** (one design system): hub HUD with PLAY and a mode board, Summon, Trait Reroll x1/x10, Collection Book, Units (team of 6, Star Up, Grades, XP), Evolution, Match Results, NPC dialogue and unified toasts. The combat HUD is separate from the hub HUD.
 - **Evolution:** server endpoint and screen, verified on Kaze → Kaze Galehawk. Materials and Gold are spent, and level and trait carry over to the new unit. A request below the required level is rejected with a reason.
 - **Per-player match wallets:** each player starts with $300 and spends only their own money. Kill and wave rewards go to each player's wallet. Income and sell refunds (70%) go to the unit's owner only, and nobody can upgrade or sell another player's unit.
-- **Placement limits:** 10 units per player overall plus a per-unit limit, both per player. The unit button shows "3/4 placed", and an over-limit placement is rejected with "Limit reached: Ren Voltblade 4/4".
+- **Placement limits:** per-unit limits per player and **no overall cap** (`Limits.PerPlayerTotal = math.huge` since 2026-11-08). Challenges keep a cap of 6 units per player (`Limits.Modes.Challenge`). The unit button shows "3/4 placed", and an over-limit placement is rejected with "Limit reached: Ren Voltblade 4/4".
 - **UltraRare profile:** no stars, full power from the first copy, duplicates give +500 Mastery XP, Star Up is hidden and the units screen shows "Full power" plus the mastery level. No ultra-rare unit is live yet, so this is untested in combat.
 - **Quests, Gold shop and materials inventory:** live with functional placeholder UI (`ServerScriptService.TD.Services.MetaService`). Daily quests reset at 00:00 UTC. The shop sells for Gold only, with no real money.
 - **Summons** with pity and the x10 guarantee, plus the profile with team, levels, stars and traits.
+
+## Added 2026-11-08 (live in Studio)
+The Studio place holds the full logic. This is what the UI and other contributors need to know.
+
+### Unit Grades (D … SSS+)
+- Each owned unit has grades from **D** up to **SSS+**. Tiers, odds and multipliers are in `Config.Grades`.
+- Rolled with `Progress("RollGrades", unitId)` → `ok, msg`, at the configured Gold price.
+- Stored in `GetProfile().Progress[unitId].Grades`. Owned-unit cards show them as rank badges (Damage, Range, Cooldown).
+
+### Unit XP and levels
+- Config: `Config.UnitXp`. Stored in `Progress[unitId].Level` and `Progress[unitId].Xp`. **Max level 20.**
+- Per match a unit earns **12 XP per wave** plus damage XP, which is **capped at 400**.
+- Multipliers: Hard ×1.5, Story world ×1.2–1.8 (by world), Infinite ×1.1, Challenge ×1.4, win ×1.5.
+- **Gold Level Up is removed.** Units level only by playing; `Progress("LevelUp", …)` is no longer a player action.
+
+### Star Up in the inventory
+- Star Up is in the Units inventory (Star Advancement view) and calls `Progress("StarUp", unitId)`. UltraRare units still have no stars.
+
+### Infinite leaderboard
+- `GetMeta()` also returns `InfiniteBest` (the player's best wave) and `Leaderboard`. The Quest Board's Infinite tab shows it with placeholder UI.
+
+### Challenges (daily and weekly)
+- One daily and one weekly challenge. In a challenge, each player can place at most **6 units** in total (`Limits.Modes.Challenge`), and units earn XP ×1.4. Challenges may mix enemies from different worlds; Story never does.
+
+### Raids
+- Two raids: **`AshenThrone`** and **`LastPier`**.
+
+### Event: Lantern Festival
+- An event mode whose matches give **Lantern tokens**. Tokens are spent in the **Event** tab of the market.
+
+### Hub HUD layout
+- The hub buttons sit in **one row at the top** of the screen. **TeamBar** (the 6 team slots) sits at the **bottom**.
 
 ## Open items / not verified
 - A **2-player test** with Studio Team Test: wallets, ownership, portal queue.
@@ -117,8 +149,8 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 ### Remotes and state (`ReplicatedStorage.TD.Remotes`)
 - **RemoteFunctions**
   - `Summon(bannerId, 1|10)` → `ok, { Results = {{ Id, Rarity, Shiny }}, Pity, PityAt }`
-  - `GetProfile()` → `{ Gems, Gold, Units = {{ Uid, Id, Shiny, Level }}, Team, Pity, Discovered, Progress[unitId] = { Level, Stars, Trait, MasteryXp }, Milestones, TraitRerolls, Materials, StoryCleared, InfiniteBest, Stats }`
-  - `Progress("LevelUp"|"StarUp"|"RollTrait", unitId)` → `ok, msg`
+  - `GetProfile()` → `{ Gems, Gold, Units = {{ Uid, Id, Shiny, Level }}, Team, Pity, Discovered, Progress[unitId] = { Level, Xp, Stars, Trait, Grades, MasteryXp }, Milestones, TraitRerolls, Materials, StoryCleared, InfiniteBest, Stats }`
+  - `Progress("StarUp"|"RollTrait"|"RollGrades", unitId)` → `ok, msg` (`LevelUp` removed; units level from match XP)
   - `TraitReroll(unitId, 1|10)` → `ok, { Trait, Rolls }`
   - `SetTeamSync({ unitIds })` → `ok, why`
   - `Evolve(unitId, pathId)` → `ok, msg`
@@ -132,14 +164,18 @@ Astra's first task is one model of an existing unit plus its inventory card, to 
 ### Entries per system (id → UI data → player action → server result)
 | System | UI reads | Player action (remote) | Server result |
 |---|---|---|---|
-| Placement | `Config.Units[id]` (Cost, PlacementLimit), own wallet in the match, placed counts | `PlaceUnit(unitId, position)` | a unit is placed and money spent, or a refusal with a reason ("Limit reached: <Name> 3/3", "Unit limit 10/10", not enough money, bad position); the button shows "2/3 placed" |
+| Placement | `Config.Units[id]` (Cost, PlacementLimit), own wallet in the match, placed counts | `PlaceUnit(unitId, position)` | a unit is placed and money spent, or a refusal with a reason ("Limit reached: <Name> 3/3", "Unit limit 6/6" in challenges, not enough money, bad position); the button shows "2/3 placed" |
 | Upgrade / Sell | unit `Levels`, the owner | `UpgradeUnit(model)`, `SellUnit(model)` | owner only; the upgrade costs the owner's money, and selling refunds 70% to the owner |
 | Ability | `Ability` (Name, Cooldown, Description) | `UseAbility(model)` | the effect plus the cooldown end time (server time) |
 | Target mode | — | `SetTargetMode(model, mode)` | the mode is stored on the unit |
 | Match wallet | player attribute `MatchMoney` | — | kill and wave rewards go to each player; income and sell refunds go to the unit's owner |
 | Summon | `Banners`, `GetProfile().Pity` | `Summon(bannerId, 1 or 10)` | `ok, { Results, Pity, PityAt }` |
 | Team | `GetProfile().Units`, `Team` | `SetTeamSync({ unitIds })` | `ok, why` |
-| Level / Stars / Trait | `GetProfile().Progress[unitId]` | `Progress("LevelUp" / "StarUp" / "RollTrait", unitId)`, `TraitReroll(unitId, 1 or 10)` | `ok, msg` / `ok, { Trait, Rolls }` |
+| Level / XP | `Progress[unitId].Level`, `.Xp`, `Config.UnitXp` | play matches (no Gold Level Up) | XP after each match; max level 20 |
+| Stars / Trait | `GetProfile().Progress[unitId]` | `Progress("StarUp" / "RollTrait", unitId)`, `TraitReroll(unitId, 1 or 10)` | `ok, msg` / `ok, { Trait, Rolls }` |
+| Grades | `Progress[unitId].Grades`, `Config.Grades` | `Progress("RollGrades", unitId)` | `ok, msg`; Gold spent, new grades D…SSS+ |
+| Infinite leaderboard | `GetMeta().InfiniteBest`, `GetMeta().Leaderboard` | — | read only |
+| Event shop | Lantern tokens, market Event tab | buy in the Event tab | tokens spent, item granted |
 | Match end | — | `RequestReplay`, `HubReturn` | `MatchResult` event with rewards and `CanReplay` |
 | Evolution | `Config.Evolutions[id]` (Materials, Gold, MinLevel, MinStars), `GetProfile().Materials` | `Evolve(unitId, pathId)` | `ok, msg`; the new unit keeps level and trait |
 | UltraRare | profile id "UltraRare", `Progress[unitId].MasteryXp` | — | no star row; show "Full power" and the Mastery level; duplicates become +500 Mastery XP |
@@ -214,6 +250,9 @@ Rules:
 - [ ] Replace the placeholder CombatFx bursts and rings for world mechanics (SwordWave, Reflect, CannonBarrage, ExplodeOnDeath, AshField, OpenGate) with proper effects. This is visual only; keep the server calls as they are.
 - [ ] Purpose-built **Quest Board** and **Lantern Market** screens using the MetaService remotes above. Either keep calling the same remotes as `MetaScreens`, or replace that module and keep the registration ids `Quests` and `ShopGold`.
 - [ ] Models for the 16 evolved units (prompts: `content/Archetypes.lua`). Until a model exists, the base unit's model is used.
+- [ ] A polished **Infinite leaderboard** view (data: `GetMeta().Leaderboard`, `InfiniteBest`) to replace the placeholder in the Quest Board's Infinite tab.
+- [ ] **Raid card art** for `AshenThrone` and `LastPier`.
+- [ ] **XP and grades on unit cards**: an XP bar to the next level (max 20) and grades D…SSS+ (data: `Progress[unitId].Level`, `.Xp`, `.Grades`).
 
 ## Rules for any contributor
 - Original content only, inspired by genres but never copied. Units are recognisable archetypes, never specific existing characters (`content/Archetypes.lua`).

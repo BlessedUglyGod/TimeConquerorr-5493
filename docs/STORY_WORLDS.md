@@ -84,7 +84,7 @@ Cost by base rarity: Common 10 Rare-material + 1 Epic-material + 2,000 Gold (Lv 
 
 ## Placement limits and progression profiles (`content/Progression.lua`)
 
-**Placement limits are per player.** Two limits apply together: `Limits.PerPlayerTotal` (10, the live value) and each unit's `PlacementLimit`. Every pack unit has one in `content/Units.lua`, the original 6 are in `Limits.ById`, and evolved units inherit their base value. Values: Common DPS 5–6, Rare 4, Epic 3, Legendary 2, Mythic 2, Exclusive 1, economy/support 3–4. `Progression.canPlace(...)` returns `false, "UnitLimit" | "TotalLimit", current, max` for the server check and the UI ("2/3 placed"). Per-mode overrides go in `Limits.Modes`.
+**Placement limits are per player.** Two limits apply together: `Limits.PerPlayerTotal` (`math.huge` live, so no overall cap; challenges cap at 6 through `Limits.Modes.Challenge`) and each unit's `PlacementLimit`. Every pack unit has one in `content/Units.lua`, the original 6 are in `Limits.ById`, and evolved units inherit their base value. Values: Common DPS 5–6, Rare 4, Epic 3, Legendary 2, Mythic 2, Exclusive 1, economy/support 3–4. `Progression.canPlace(...)` returns `false, "UnitLimit" | "TotalLimit", current, max` for the server check and the UI ("2/3 placed"). Per-mode overrides go in `Limits.Modes`.
 
 **Ultra-rare units do not need duplicates.** Each unit uses a progression profile:
 
