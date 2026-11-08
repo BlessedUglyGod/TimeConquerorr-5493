@@ -68,3 +68,29 @@ The existing map 2 (Sunken Lantern Shrine) with its yokai-style roster (`content
 `SmokeCloud` (unit range multiplier in an area), `MaskSwap` (rotating element resistance), `SwordWave` (disables units on a line), `Reflect`, `Unbound` (boss form change), `ExplodeOnDeath` (disables nearby units), `StealMoneyOnLeak`, `CannonBarrage` (disables N units), `HealOnce`, `OpenGate` (spawns behind the core), `AshField` (unit cooldown multiplier). The others are shared with `content/Enemies.lua` (Phase, Blink, Burrow, DisableUnit, ShieldAura, HealAura, ChargeBelowHp, SummonEvery/Now, ShieldSelf, CleanseEvery, SplitOnDeath).
 
 Suggested build order: `Blink`, `Phase`, `Burrow`, `SummonEvery` and `DisableUnit` cover most of world 1–2. Leave the rest for when those worlds are scheduled.
+
+## Evolutions (`content/Evolutions.lua`)
+
+Each of the 16 live units has one evolution step paid with the materials of the Story world that fits its theme, plus Gold, a minimum level and minimum stars. `Evolutions.Paths` is `Config.Evolutions`. `Evolutions.build(Config.Units)` derives the evolved unit definitions from the live base units (damage ×1.35, range ×1.1, cooldown ×0.9, price ×1.15 by default, plus a themed on-hit bonus), so they follow the live schema and any later rebalance of the base. Evolved units reuse their base ability ids, so the server needs no new abilities.
+
+| World | Units → evolved |
+|---|---|
+| Ash Veil Valley | Kaito → Nightveil, Kaze → Galehawk, Tora → Stoneclaw, Hana → Briarshade |
+| Twilight Threshold | Yuki → Palemoon, Momo → Soulbell, Seren → Inkveil, Rin → Talismancer |
+| Saltfang Archipelago | Baron → Goldtide, Nami → Stormsail, Akane → Scarlet Corsair, Pip → Cannonwright |
+| Gatefall City | Ren → Gatebreaker, Mira → Cinderqueen, Jin → Runesmith, Gus → Crystalfist |
+
+Cost by base rarity: Common 10 Rare-material + 1 Epic-material + 2,000 Gold (Lv 20, 1★); Rare 15 + 2 + 5,000 (Lv 25, 2★); Epic 20 + 4 + 12,000 (Lv 30, 3★); Legendary 25 + 6 + 1 Legendary-material + 25,000 (Lv 40, 4★).
+
+## Placement limits and progression profiles (`content/Progression.lua`)
+
+**Placement limits are per player.** Two limits apply together: `Limits.PerPlayerTotal` (10, the live value) and each unit's `PlacementLimit`. Every pack unit has one in `content/Units.lua`, the original 6 are in `Limits.ById`, and evolved units inherit their base value. Values: Common DPS 5–6, Rare 4, Epic 3, Legendary 2, Mythic 2, Exclusive 1, economy/support 3–4. `Progression.canPlace(...)` returns `false, "UnitLimit" | "TotalLimit", current, max` for the server check and the UI ("2/3 placed"). Per-mode overrides go in `Limits.Modes`.
+
+**Ultra-rare units do not need duplicates.** Each unit uses a progression profile:
+
+| Profile | Who | Stars | Progress |
+|---|---|---|---|
+| Standard | Common–Mythic | 1–5 from duplicates (current system) | levels, stars, traits, evolution |
+| UltraRare | Secret, Exclusive, opted-in unique evolved units | disabled; full 5★ stat bonus from the first copy; star row hidden (or drawn 5/5) | Mastery (XP from matches with the unit, 10 levels of bonuses and titles), a unit-specific Awakening questline (stage clears, boss kills, Infinite waves, world boss materials, a signature drop), extra copies turn into Mastery XP |
+
+Lookup order: `unit.ProgressionProfile` > `Progression.UnitProfiles[id]` > `RarityProfiles[rarity]`. Tokiya Clockveil (Exclusive) has a full 3-step awakening: "The Stopped Clock", "Echo of the Ferryman" and "Keeper of the Last Hour". Its signature material is Hourglass Sand, dropped by the Hourless Shogun and Morrag, and the last step is an awakened form. A template for the next Secret or unique unit is at the end of the module. `Secret` must be added to `TD.Rarities` when the first Secret unit is made.

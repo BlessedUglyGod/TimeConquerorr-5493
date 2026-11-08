@@ -2,6 +2,7 @@
 -- TD content pack v2: 20 original units in the live Config.Units schema.
 -- Merge: for id, def in Units do Config.Units[id] = def end
 -- Live fields: Name, Rarity, Role, Description, Cost, Attack, Element, Color, Hair, Levels, Ability.
+-- PlacementLimit = max copies of this unit EACH player may have placed at once (see content/Progression.lua).
 -- Upgrade prices capped at 180/220 (Mythic/Exclusive 240/300) to fit the live 60-220 range.
 -- Levels[1] has no Cost (Cost is the placement price); Levels[2..3].Cost = upgrade price.
 -- OnHit = { StatusId = { strength, duration, Chance = p? } } using live conventions
@@ -13,12 +14,13 @@
 local Units = {}
 
 -------------------------------------------------------------------- COMMON
-Units.PipCopperbolt = {
+Units.Pip = {
 	Name = "Pip Copperbolt",
 	Rarity = "Common",
 	Role = "DPS",
 	Description = "First hit on each new target deals double damage.",
 	Cost = 75,
+	PlacementLimit = 6,
 	Attack = "Single",
 	Element = "Lightning",
 	Color = Color3.fromRGB(235, 200, 60),
@@ -31,15 +33,16 @@ Units.PipCopperbolt = {
 		{ Cost = 110, Damage = 40, Range = 16, Cooldown = 0.4 },
 	},
 	Passive = { Id = "QuickDraw", FirstShotBonus = 2, Description = "First hit on each new target deals double damage." },
-	Look = "Chibi teen mechanic with spiky copper hair and oversized goggles, yellow work overalls covered in patches, holding a stubby tesla-coil pistol wrapped in tape, small spark wisps around the hands",
+	Look = "Small teen with spiky copper hair and huge goggles on the forehead, yellow overalls with patches and tool pockets, tesla-coil pistol wrapped in tape, sparks around the hands",
 }
 
-Units.HanaThornshot = {
+Units.Hana = {
 	Name = "Hana Thornshot",
 	Rarity = "Common",
 	Role = "DPS",
 	Description = "Reliable single-target damage.",
 	Cost = 85,
+	PlacementLimit = 5,
 	Attack = "Single",
 	Element = "Nature",
 	Color = Color3.fromRGB(110, 170, 90),
@@ -51,15 +54,16 @@ Units.HanaThornshot = {
 		{ Cost = 70, Damage = 20, Range = 19, Cooldown = 0.75, OnHit = { Poison = { 10, 3 } } },
 		{ Cost = 120, Damage = 30, Range = 21, Cooldown = 0.7, OnHit = { Poison = { 17.5, 4 } } },
 	},
-	Look = "Chibi forest girl with mossy green twin buns, leaf-patterned short kimono, wooden slingshot carved like a vine, pouch of glowing seeds on the belt",
+	Look = "Agile girl with mossy-green twin buns, dark green ninja garb with leaf-shaped shoulder guards, vine slingshot, glowing seed pouch, half-mask of woven leaves",
 }
 
-Units.GusPebblefist = {
+Units.Gus = {
 	Name = "Gus Pebblefist",
 	Rarity = "Common",
 	Role = "Splash",
 	Description = "Short-range area attack.",
 	Cost = 100,
+	PlacementLimit = 5,
 	Attack = "Splash",
 	Element = "Earth",
 	Color = Color3.fromRGB(140, 100, 70),
@@ -71,15 +75,16 @@ Units.GusPebblefist = {
 		{ Cost = 70, Damage = 38, Range = 9, Cooldown = 1.3, Splash = 5.5 },
 		{ Cost = 135, Damage = 60, Range = 10, Cooldown = 1.2, Splash = 6 },
 	},
-	Look = "Stocky chibi boy with a buzz cut and a headband, sleeveless brown gi, huge stone gauntlets with cracks glowing orange, bare feet",
+	Look = "Stocky boy with a buzz cut and headband, sleeveless brown gi, huge stone gauntlets with glowing orange cracks, bare feet, wide stance",
 }
 
-Units.RinPaperkite = {
+Units.Rin = {
 	Name = "Rin Paperkite",
 	Rarity = "Common",
 	Role = "AntiAir",
 	Description = "+50% damage to Flying enemies.",
 	Cost = 90,
+	PlacementLimit = 5,
 	Attack = "Single",
 	Element = "Wind",
 	Color = Color3.fromRGB(240, 240, 235),
@@ -92,15 +97,16 @@ Units.RinPaperkite = {
 		{ Cost = 115, Damage = 42, Range = 28, Cooldown = 0.9 },
 	},
 	Passive = { Id = "SkyHunter", FlyingBonus = 1.5, Description = "+50% damage to Flying enemies." },
-	Look = "Chibi courier girl with a short white bob and a red scarf, holding a large folded-paper kite that she throws like a boomerang, paper charms floating around",
+	Look = "Cheerful girl with a short white bob and a long red scarf, courier satchel, a swarm of folded paper kites and talismans circling her",
 }
 
-Units.MomoLanternbell = {
+Units.Momo = {
 	Name = "Momo Lanternbell",
 	Rarity = "Common",
 	Role = "Support",
 	Description = "Enemies in range lose Burrowed/Phased (cannot hide).",
 	Cost = 90,
+	PlacementLimit = 4,
 	Attack = "Pulse",
 	Element = "Fire",
 	Color = Color3.fromRGB(245, 150, 60),
@@ -113,16 +119,17 @@ Units.MomoLanternbell = {
 		{ Cost = 110, Damage = 12, Range = 12, Cooldown = 1.3, OnHit = { Burn = { 12.5, 3 } } },
 	},
 	Passive = { Id = "RevealingLight", Description = "Enemies in range lose Burrowed/Phased (cannot hide)." },
-	Look = "Tiny chibi shrine helper with round cheeks, orange festival yukata, carrying a paper lantern on a long pole with a small flame spirit inside, bell on the hair ribbon",
+	Look = "Round-cheeked little girl in an orange festival yukata, carrying a paper lantern on a long pole with a small flame spirit inside, bell on the hair ribbon",
 }
 
 -------------------------------------------------------------------- RARE
-Units.SoraTidecaller = {
+Units.Sora = {
 	Name = "Sora Tidecaller",
 	Rarity = "Rare",
 	Role = "Control",
 	Description = "Riptide Wave: A wave rolls along the path toward the spawn, pushing enemies back 12 studs (bosses 3).",
 	Cost = 140,
+	PlacementLimit = 4,
 	Attack = "Splash",
 	Element = "Water",
 	Color = Color3.fromRGB(40, 70, 140),
@@ -135,15 +142,16 @@ Units.SoraTidecaller = {
 		{ Cost = 180, Damage = 50, Range = 15, Cooldown = 1, Splash = 6, OnHit = { Slow = { 0.65, 2 } } },
 	},
 	Ability = { Id = "RiptideWave", Name = "Riptide Wave", Cooldown = 30, UnlockLevel = 2, Damage = 100, Pushback = 12, Width = 6, Description = "A wave rolls along the path toward the spawn, pushing enemies back 12 studs (bosses 3)." },
-	Look = "Chibi fisher boy with messy sea-blue hair, rolled-up navy pants, sailor collar shirt, holding a giant conch shell that sprays water, small fish charm on the neck",
+	Look = "Boy with messy sea-blue hair, rolled-up navy shorts, sailor-collar shirt, giant conch shell that sprays water, fish charm necklace",
 }
 
-Units.KaitoAshveil = {
+Units.Kaito = {
 	Name = "Kaito Ashveil",
 	Rarity = "Rare",
 	Role = "DPS",
 	Description = "20% chance to deal double damage.",
 	Cost = 155,
+	PlacementLimit = 4,
 	Attack = "Single",
 	Element = "Shadow",
 	Color = Color3.fromRGB(55, 55, 65),
@@ -156,15 +164,16 @@ Units.KaitoAshveil = {
 		{ Cost = 195, Damage = 138, Range = 12, Cooldown = 0.8 },
 	},
 	Passive = { Id = "Backstab", CritChance = 0.2, CritMult = 2, Description = "20% chance to deal double damage." },
-	Look = "Chibi ninja-courier with ash-grey hair over one eye, charcoal hooded haori with torn hem, twin short daggers with purple smoke trails, mask covering the lower face",
+	Look = "Lean ninja with ash-grey hair covering one eye, charcoal hooded haori with torn hem, lower-face mask, twin short daggers trailing purple smoke",
 }
 
-Units.LumiStarpetal = {
+Units.Lumi = {
 	Name = "Lumi Starpetal",
 	Rarity = "Rare",
 	Role = "Support",
 	Description = "Encore: Allies in range attack 40% faster for 8 s.",
 	Cost = 150,
+	PlacementLimit = 3,
 	Attack = "None",
 	Element = "Light",
 	Color = Color3.fromRGB(245, 235, 200),
@@ -177,15 +186,16 @@ Units.LumiStarpetal = {
 		{ Cost = 220, Damage = 0, Range = 14, Cooldown = 0, Aura = { Target = "Allies", Stat = "Range", Mult = 1.15, Extra = { Stat = "Cooldown", Mult = 0.92 } } },
 	},
 	Ability = { Id = "Encore", Name = "Encore", Cooldown = 60, UnlockLevel = 3, CooldownMult = 0.6, Duration = 8, Description = "Allies in range attack 40% faster for 8 s." },
-	Look = "Chibi idol-priestess with pale lilac long hair and star hairpins, white and gold layered dress, holding a microphone-shaped staff topped with a glowing flower",
+	Look = "Idol-priestess with pale lilac long hair and star hairpins, white-gold layered stage dress, microphone-shaped staff topped with a glowing flower",
 }
 
-Units.JinIronbloom = {
+Units.Jin = {
 	Name = "Jin Ironbloom",
 	Rarity = "Rare",
 	Role = "AntiArmor",
 	Description = "AntiArmor",
 	Cost = 145,
+	PlacementLimit = 4,
 	Attack = "Single",
 	Element = "Earth",
 	Color = Color3.fromRGB(180, 60, 50),
@@ -197,15 +207,16 @@ Units.JinIronbloom = {
 		{ Cost = 105, Damage = 70, Range = 10, Cooldown = 1.2, OnHit = { ArmorBreak = { 1.2, 5 } } },
 		{ Cost = 185, Damage = 110, Range = 10, Cooldown = 1.1, OnHit = { ArmorBreak = { 1.3, 6 } } },
 	},
-	Look = "Chibi blacksmith girl with a high brown ponytail and soot on the cheek, leather apron over a red tunic, giant hammer whose head is a blooming iron flower",
+	Look = "Strong girl with a high brown ponytail and soot on the cheek, leather apron over a red tunic, giant hammer whose head is a blooming iron flower",
 }
 
-Units.NamiGale = {
+Units.Nami = {
 	Name = "Nami Gale",
 	Rarity = "Rare",
 	Role = "DPS",
 	Description = "Reliable single-target damage.",
 	Cost = 145,
+	PlacementLimit = 4,
 	Attack = "Chain",
 	Element = "Wind",
 	Color = Color3.fromRGB(120, 190, 140),
@@ -217,16 +228,17 @@ Units.NamiGale = {
 		{ Cost = 105, Damage = 35, Range = 19, Cooldown = 0.95, ChainCount = 3, ChainFalloff = 0.8 },
 		{ Cost = 195, Damage = 52, Range = 20, Cooldown = 0.9, ChainCount = 4, ChainFalloff = 0.85 },
 	},
-	Look = "Chibi archer with teal side-swept hair and a feather earring, light green hunter coat flapping in wind, recurve bow with spinning wind rings on the tips",
+	Look = "Archer with teal side-swept hair and a feather earring, light green hunter coat with sailor collar, recurve bow with spinning wind rings on the tips",
 }
 
 -------------------------------------------------------------------- EPIC
-Units.AkaneCrimsonwire = {
+Units.Akane = {
 	Name = "Akane Crimsonwire",
 	Rarity = "Epic",
 	Role = "DPS",
-	Description = "Ring of Fire: Spawns a burning ring on the path in range; enemies inside take 30 dps and get Burn.",
+	Description = "Ring of Fire: Spawns a burning ring on the path in range; enemies inside take 75 dps and get Burn.",
 	Cost = 180,
+	PlacementLimit = 3,
 	Attack = "Chain",
 	Element = "Fire",
 	Color = Color3.fromRGB(30, 25, 30),
@@ -238,16 +250,17 @@ Units.AkaneCrimsonwire = {
 		{ Cost = 135, Damage = 80, Range = 14, Cooldown = 0.95, ChainCount = 4, ChainFalloff = 0.85, OnHit = { Burn = { 20, 3 } } },
 		{ Cost = 220, Damage = 125, Range = 15, Cooldown = 0.9, ChainCount = 5, ChainFalloff = 0.9, OnHit = { Burn = { 30, 4 } } },
 	},
-	Ability = { Id = "RingOfFire", Name = "Ring of Fire", Cooldown = 45, UnlockLevel = 2, Dps = 75, Duration = 6, Radius = 10, Description = "Spawns a burning ring on the path in range; enemies inside take 30 dps and get Burn." },
-	Look = "Chibi circus acrobat with crimson twin tails, black and red ringmaster jacket with gold buttons, a burning chain-whip coiled around one arm, smirk",
+	Ability = { Id = "RingOfFire", Name = "Ring of Fire", Cooldown = 45, UnlockLevel = 2, Dps = 75, Duration = 6, Radius = 10, Description = "Spawns a burning ring on the path in range; enemies inside take 75 dps and get Burn." },
+	Look = "Acrobat with crimson twin tails, black and red ringmaster jacket with gold buttons, burning chain-whip coiled around one arm, playful smirk",
 }
 
-Units.HaruGlacierheart = {
+Units.Haru = {
 	Name = "Haru Glacierheart",
 	Rarity = "Epic",
 	Role = "Control",
 	Description = "Permafrost: Stuns every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once).",
 	Cost = 190,
+	PlacementLimit = 3,
 	Attack = "Pulse",
 	Element = "Ice",
 	Color = Color3.fromRGB(170, 210, 240),
@@ -260,15 +273,16 @@ Units.HaruGlacierheart = {
 		{ Cost = 220, Damage = 80, Range = 13, Cooldown = 1.4, OnHit = { Slow = { 0.6, 2.5 }, Stun = { 1, 1.2, Chance = 0.1 } } },
 	},
 	Ability = { Id = "Permafrost", Name = "Permafrost", Cooldown = 50, UnlockLevel = 2, BossDuration = 0.8, Duration = 2.5, Description = "Stuns every enemy in range for 2.5 s (bosses 0.8 s, ignores CC immunity once)." },
-	Look = "Calm chibi swordsman with frosty white hair tied low, pale blue haori with snowflake crest, a katana made of translucent ice resting on the shoulder, breath visible",
+	Look = "Calm young swordsman with frosty white hair tied low, pale blue haori with a snowflake crest, translucent ice katana resting on the shoulder, breath visible",
 }
 
-Units.SerenMoonquill = {
+Units.Seren = {
 	Name = "Seren Moonquill",
 	Rarity = "Epic",
 	Role = "Support",
 	Description = "Prefers unmarked targets so Mark spreads across the wave.",
 	Cost = 170,
+	PlacementLimit = 3,
 	Attack = "Single",
 	Element = "Arcane",
 	Color = Color3.fromRGB(45, 50, 110),
@@ -281,15 +295,16 @@ Units.SerenMoonquill = {
 		{ Cost = 220, Damage = 62, Range = 18, Cooldown = 1, OnHit = { Mark = { 1.2, 5 } } },
 	},
 	Passive = { Id = "Annotate", Description = "Prefers unmarked targets so Mark spreads across the wave." },
-	Look = "Chibi scholar with long navy hair and round glasses, star-map cloak, floating open book and a quill pen that writes glowing runes in the air",
+	Look = "Scholar with long navy hair and round glasses, star-map cloak, floating open book and a quill that writes glowing runes in the air",
 }
 
-Units.DaichiQuakeborn = {
+Units.Daichi = {
 	Name = "Daichi Quakeborn",
 	Rarity = "Epic",
 	Role = "Splash",
-	Description = "Faultline: Cracks the path in front: 250 damage and 1.5 s stun in a line; un-burrows enemies.",
+	Description = "Faultline: Cracks the path in front: 625 damage and 1.5 s stun in a line; un-burrows enemies.",
 	Cost = 200,
+	PlacementLimit = 3,
 	Attack = "Splash",
 	Element = "Earth",
 	Color = Color3.fromRGB(130, 90, 55),
@@ -301,17 +316,18 @@ Units.DaichiQuakeborn = {
 		{ Cost = 145, Damage = 112, Range = 11, Cooldown = 1.9, Splash = 7.5, OnHit = { Stun = { 1, 0.7, Chance = 0.12 } } },
 		{ Cost = 220, Damage = 175, Range = 12, Cooldown = 1.8, Splash = 8, OnHit = { Stun = { 1, 0.8, Chance = 0.15 } } },
 	},
-	Ability = { Id = "Faultline", Name = "Faultline", Cooldown = 40, UnlockLevel = 3, Damage = 625, Length = 20, StunDuration = 1.5, Description = "Cracks the path in front: 250 damage and 1.5 s stun in a line; un-burrows enemies." },
-	Look = "Huge-shouldered chibi monk with a shaved head and prayer beads of round boulders, earth-brown robes, stomping pose with cracks under the feet",
+	Ability = { Id = "Faultline", Name = "Faultline", Cooldown = 40, UnlockLevel = 3, Damage = 625, Length = 20, StunDuration = 1.5, Description = "Cracks the path in front: 625 damage and 1.5 s stun in a line; un-burrows enemies." },
+	Look = "Huge-shouldered monk with a shaved head and prayer beads made of round boulders, earth-brown robes, stomping pose with cracks under his feet",
 }
 
 -------------------------------------------------------------------- LEGENDARY
-Units.ValkaStormcrown = {
+Units.Valka = {
 	Name = "Valka Stormcrown",
 	Rarity = "Legendary",
 	Role = "DPS",
 	Description = "Thunderthrone: For 8 s attacks twice as fast and chain to 3 extra targets.",
 	Cost = 215,
+	PlacementLimit = 2,
 	Attack = "Chain",
 	Element = "Lightning",
 	Color = Color3.fromRGB(40, 60, 130),
@@ -324,15 +340,16 @@ Units.ValkaStormcrown = {
 		{ Cost = 220, Damage = 212, Range = 18, Cooldown = 0.9, ChainCount = 6, ChainFalloff = 0.9, OnHit = { Stun = { 1, 0.5, Chance = 0.08 } } },
 	},
 	Ability = { Id = "Thunderthrone", Name = "Thunderthrone", Cooldown = 60, UnlockLevel = 2, ChainBonus = 3, CooldownMult = 0.5, Duration = 8, Description = "For 8 s attacks twice as fast and chain to 3 extra targets." },
-	Look = "Proud chibi warrior queen with silver braided hair and a jagged gold crown crackling with lightning, dark blue armored dress with a cape, spear made of a frozen lightning bolt",
+	Look = "Proud warrior queen with silver braided hair, jagged gold crown crackling with lightning, dark-blue armoured dress with cape, spear shaped like a frozen lightning bolt",
 }
 
-Units.RyuAshenwing = {
+Units.Ryu = {
 	Name = "Ryu Ashenwing",
 	Rarity = "Legendary",
 	Role = "AntiAir",
-	Description = "+75% damage to Flying enemies. Inferno Dive: Dives onto the strongest enemy in range: 600 damage in a 9-stud blast, grounds Flying enemies for 4 s.",
+	Description = "+75% damage to Flying enemies. Inferno Dive: Dives onto the strongest enemy in range: 1500 damage in a 9-stud blast, grounds Flying enemies for 4 s.",
 	Cost = 220,
+	PlacementLimit = 2,
 	Attack = "Splash",
 	Element = "Fire",
 	Color = Color3.fromRGB(90, 60, 40),
@@ -345,16 +362,17 @@ Units.RyuAshenwing = {
 		{ Cost = 220, Damage = 238, Range = 23, Cooldown = 1.2, Splash = 6, OnHit = { Burn = { 45, 4 } } },
 	},
 	Passive = { Id = "SkyHunter", FlyingBonus = 1.75, Description = "+75% damage to Flying enemies." },
-	Ability = { Id = "InfernoDive", Name = "Inferno Dive", Cooldown = 55, UnlockLevel = 2, Damage = 1500, Radius = 9, Description = "Dives onto the strongest enemy in range: 600 damage in a 9-stud blast, grounds Flying enemies for 4 s." },
-	Look = "Chibi sky-rider with black hair streaked ember orange, aviator jacket with fur collar, mechanical wings of charred metal feathers glowing at the edges, flame lance",
+	Ability = { Id = "InfernoDive", Name = "Inferno Dive", Cooldown = 55, UnlockLevel = 2, Damage = 1500, Radius = 9, Description = "Dives onto the strongest enemy in range: 1500 damage in a 9-stud blast, grounds Flying enemies for 4 s." },
+	Look = "Sky-rider with black hair streaked ember orange, aviator jacket with fur collar, mechanical wings of charred metal feathers, flame lance",
 }
 
-Units.OzuGoldleaf = {
+Units.Ozu = {
 	Name = "Ozu Goldleaf",
 	Rarity = "Legendary",
 	Role = "Economy",
 	Description = "Upgrades of all your units cost 5% less (does not stack with another Ozu).",
 	Cost = 200,
+	PlacementLimit = 3,
 	Attack = "Single",
 	Element = "Light",
 	Color = Color3.fromRGB(40, 130, 90),
@@ -367,16 +385,17 @@ Units.OzuGoldleaf = {
 		{ Cost = 220, Damage = 35, Range = 11, Cooldown = 1.5, Income = 110 },
 	},
 	Passive = { Id = "Haggle", MaxStacks = 1, UpgradeDiscount = 0.05, Description = "Upgrades of all your units cost 5% less (does not stack with another Ozu)." },
-	Look = "Old chibi tea merchant with a long white mustache and gold-leaf straw hat, emerald robe with coin embroidery, abacus slung on the back, teapot that pours gold light",
+	Look = "Old merchant with a long white mustache and gold-leaf straw hat, emerald robe with coin embroidery, abacus on the back, teapot pouring golden light",
 }
 
 -------------------------------------------------------------------- MYTHIC
-Units.KurenaiEclipse = {
+Units.Kurenai = {
 	Name = "Kurenai of the Eclipse",
 	Rarity = "Mythic",
 	Role = "DPS",
 	Description = "Instantly defeats non-boss enemies below 12% HP. Total Eclipse: Darkens the field for 6 s: all enemies take +25% damage and are slowed 30%.",
 	Cost = 260,
+	PlacementLimit = 2,
 	Attack = "Pierce",
 	Element = "Shadow",
 	Color = Color3.fromRGB(20, 20, 25),
@@ -390,15 +409,16 @@ Units.KurenaiEclipse = {
 	},
 	Passive = { Id = "Execute", BossThreshold = 0, Threshold = 0.12, Description = "Instantly defeats non-boss enemies below 12% HP." },
 	Ability = { Id = "TotalEclipse", Name = "Total Eclipse", Cooldown = 70, UnlockLevel = 2, DamageTakenMult = 1.25, Duration = 6, Slow = 0.3, Description = "Darkens the field for 6 s: all enemies take +25% damage and are slowed 30%." },
-	Look = "Elegant chibi swordswoman with long black hair fading to crimson tips, eyes with eclipse rings, black kimono with a red moon pattern, a long nodachi trailing dark mist, half-moon halo",
+	Look = "Elegant swordswoman with black hair fading to crimson tips, eclipse-ring eyes, black kimono with a red moon pattern, long nodachi trailing dark mist, half-moon halo",
 }
 
-Units.AerisDawnbreaker = {
+Units.Aeris = {
 	Name = "Aeris Dawnbreaker",
 	Rarity = "Mythic",
 	Role = "DPS",
-	Description = "Hits remove enemy Shield and Phased states. Daybreak: A beam along the whole path: 1200 damage to every enemy on it (bosses take 50%).",
+	Description = "Hits remove enemy Shield and Phased states. Daybreak: A beam along the whole path: 3000 damage to every enemy on it (bosses take 50%).",
 	Cost = 265,
+	PlacementLimit = 2,
 	Attack = "Pierce",
 	Element = "Light",
 	Color = Color3.fromRGB(235, 240, 250),
@@ -411,17 +431,18 @@ Units.AerisDawnbreaker = {
 		{ Cost = 300, Damage = 425, Range = 25, Cooldown = 1.1, PierceCount = 10 },
 	},
 	Passive = { Id = "Purify", Description = "Hits remove enemy Shield and Phased states." },
-	Ability = { Id = "Daybreak", Name = "Daybreak", Cooldown = 75, UnlockLevel = 2, Damage = 3000, Width = 5, Description = "A beam along the whole path: 1200 damage to every enemy on it (bosses take 50%)." },
-	Look = "Radiant chibi paladin with short golden hair and a sunburst halo, white and sky-blue plate armor with feather motifs, a greatbow shaped like a rising sun firing beams",
+	Ability = { Id = "Daybreak", Name = "Daybreak", Cooldown = 75, UnlockLevel = 2, Damage = 3000, Width = 5, Description = "A beam along the whole path: 3000 damage to every enemy on it (bosses take 50%)." },
+	Look = "Radiant paladin with short golden hair and a sunburst halo, white and sky-blue plate armour with feather motifs, greatbow shaped like a rising sun",
 }
 
 -------------------------------------------------------------------- EXCLUSIVE
-Units.TokiyaClockveil = {
+Units.Tokiya = {
 	Name = "Tokiya Clockveil",
 	Rarity = "Exclusive",
 	Role = "Control",
 	Description = "All your units' ability cooldowns are 10% shorter. Time Stop: Stuns every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path.",
 	Cost = 280,
+	PlacementLimit = 1,
 	Attack = "Splash",
 	Element = "Arcane",
 	Color = Color3.fromRGB(30, 90, 95),
@@ -435,7 +456,7 @@ Units.TokiyaClockveil = {
 	},
 	Passive = { Id = "BorrowedTime", CooldownMult = 0.9, Description = "All your units' ability cooldowns are 10% shorter." },
 	Ability = { Id = "TimeStop", Name = "Time Stop", Cooldown = 90, UnlockLevel = 2, BossDuration = 1, Duration = 3, Rewind = 8, Description = "Stuns every enemy on the map for 3 s (bosses 1 s), then rewinds them 8 studs back along the path." },
-	Look = "Mysterious chibi time-keeper with silver hair and one clock-face eye, long dark-teal coat with brass gears, a floating pocket-watch shield and an hourglass staff with sand flowing upward",
+	Look = "Mysterious mage with silver hair and one clock-face eye, long dark-teal coat with brass gears, floating pocket-watch shield, hourglass staff with sand flowing upward",
 }
 
 return Units
