@@ -230,3 +230,8 @@ Rules:
 - Owned-unit cards now display Damage, Range and Cooldown rank badges. Reroll Grades continues to use the configured Gold price and existing server action.
 - Hub HUD team slots now reuse inventory 3D previews, including base-model fallback for evolved units. Six slots share the available width. Checked equipped/empty slots and switching units using isolated Studio UI tests.
 - The 14 original native-part unit models are **prototypes for review**. A final art pass should follow content/Archetypes.lua. The active Studio place is the authoritative source for these changes.
+
+### Astra · world scenery and hub screens
+- Added 12 original scenery compositions (357 anchored, non-colliding, non-touchable, non-queryable parts) in TwilightThreshold.Decor.FerrymansCourtDecor, SaltfangArchipelago.Decor.IronTideHarborDecor, and GatefallCity.Decor.RiftDistrictDecor. Bounds and spawn/path clearances checked in Edit; closest decoration is 18.44 studs from a route.
+- Quest Board now separates Daily, Story and Infinite rankings. Quest cards show rewards, progress, and claim availability. Lantern Market separates merchandise and material inventory, with wallet balance, stock remaining and Gold prices. Both retain GetMeta, ClaimQuest and BuyItem; server logic/data unchanged in this pass.
+- Kaze art review candidate: Roblox Studio generated original mesh asset 111888073075398 from the repository's quiet wind archer design. Kept in ServerStorage.TDArtReview.Kaze for inspection before replacing the equipped model. The edit viewport capture was blank; geometry and hierarchy were inspected.
